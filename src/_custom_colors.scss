@@ -1,0 +1,123 @@
+@import '~@angular/material/theming';
+
+// greys
+$default-color: #212529;
+$grey-800: $default-color;
+$grey-600: #484d51;
+$grey-400: #73797d;
+$grey-300: #a2a8ac;
+$grey-200: #d3d9de;
+$grey-50: #eef1f4;
+
+
+// Primary palette
+// mat-pink
+$custom-primary: $mat-pink;
+
+// accessing colors
+$tab-color: rgba(mat-color($custom-primary, 100), 0.3);
+
+
+// Secondary palette
+$custom-green: (
+  50: #d4ffed, // 100-light
+  100: #a1eabb, // 500-light
+  200: #ef9a9a,
+  300: #e57373,
+  400: #ef5350,
+  500: #70b78b, // medium green; 700-light
+  600: #e53935,
+  700: #41875E, // 500-dark
+  800: #c62828,
+  900: #0c5934, // 700-dark
+  A100: #ff8a80,
+  A200: #70b78b, // accent button
+  A400: #ff1744,
+  A700: #d50000,
+  contrast: (
+    50: $black-87-opacity,
+    100: $black-87-opacity,
+    200: $black-87-opacity,
+    300: $black-87-opacity,
+    400: $black-87-opacity,
+    500: white,
+    600: white,
+    700: white,
+    800: $white-87-opacity,
+    900: $white-87-opacity,
+    A100: $black-87-opacity,
+    A200: white,
+    A400: white,
+    A700: white,
+  )
+);
+
+$primary-500: mat-color($custom-primary, 500);
+
+$custom-accent: $custom-green;
+
+$accent-900: mat-color($custom-accent, 900); //#0c5934;
+$accent-700:    mat-color($custom-accent, 700); //#41875E;
+$accent-500:    mat-color($custom-accent, 500); //#70b78b;
+$accent-100:    mat-color($custom-accent, 100); //#a1eabb;
+
+// sample status
+$abandoned-color: white;
+$nosample-color: $grey-200;
+$notstarted-color: #CFBF98; //#ded4bb;
+$started-color: #F1E462;
+$raw-color: #C8E76E;
+$complete-color: #70b78b;
+
+// '#41875E','#93C86B','#F1E462','#CFBF98','#d3d9de'
+//
+
+// Virus colors
+$lassa-color: mat-color($custom-accent, 900); //#0c5934;
+$lassa-dk:    mat-color($custom-accent, 700); //#41875E;
+$lassa-md:    mat-color($custom-accent, 500); //#70b78b;
+$lassa-lt:    mat-color($custom-accent, 100); //#a1eabb;
+
+$ebola-color: mat-color($custom-primary, 700); //#c2185b;
+$ebola-dk:    mat-color($custom-primary, 500); //#E91E63;
+$ebola-md:    mat-color($custom-primary, 300); //#F06292;
+$ebola-lt:    mat-color($custom-primary, 100); //#F8BBD0;
+
+// Sex colors
+$male-color: #f57f17;
+$female-color: #7e57c2;
+
+// Common coloring stylings
+h3 {
+  font-weight: 300;
+  color: $grey-400;
+  margin-bottom: 0;
+}
+
+h4 {
+  font-weight: 300;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+h5 {
+  font-weight: 300;
+  color: $grey-400;
+  margin: 0;
+}
+
+
+.complete {
+  color: $complete-color;
+}
+
+
+
+// tables (font-size)
+/deep/ .mat-cell {
+  font-size: 1em;
+}
+
+/deep/ button.mat-sort-header-button {
+  font-size: 1.25em;
+}
