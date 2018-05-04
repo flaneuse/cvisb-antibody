@@ -21,16 +21,10 @@ export class PlateHeatmapComponent implements OnInit {
     { 'sample_id': 'TUL3', 'avg': 8.75909, 'indivs': [9.07368, 8.61540, 8.58819], 'row': "C", 'cols': [1,2,3] }
   ]
 
-  ref_lines: Array<Object> = [
-    { 'label': 'negative control', 'value': 9.65 },
-    { 'label': 'positive control', 'value': 105.48 },
-    { 'label': 'plate median', 'value': 33.61 }
-  ];
-
   // --- Plot sizing ---
   private element: any;
   private element_dims: any;
-  private margin: any = { top: 50, bottom: 50, left: 50, right: 50 };
+  private margin: any = { top: 50, bottom: 0, left: 50, right: 50 };
   private width: number;
   private height: number;
   private rect_width: number;
@@ -45,6 +39,7 @@ export class PlateHeatmapComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    this.df = this.df.sort((a,b) => a.avg - b.avg);
 
     //
     // this.fluorcts = [
@@ -73,7 +68,7 @@ export class PlateHeatmapComponent implements OnInit {
     // Find container; define width/height of svg obj.
     this.element = this.chartContainer.nativeElement;
     this.element_dims = this.element.getBoundingClientRect();
-    this.width = this.element.offsetWidth - this.margin.left - this.margin.right;
+    this.width = this.element.offsetWidth/2 - this.margin.left - this.margin.right;
     this.height = this.element.offsetHeight - this.margin.top - this.margin.bottom;
   }
 

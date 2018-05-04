@@ -6,7 +6,7 @@
   position: relative;
   width: 100%;
   height: 400px;
-  background-color: aliceblue;
+  // background-color: aliceblue;
 }
 
 td {
@@ -27,39 +27,15 @@ body {
   left: 0;
 }
 
-.indiv {
-  stroke: black;
-  stroke-width: 1;
-  fill: #CCC;
-}
-
-.avg {
-  stroke: black;
-  stroke-width: 2;
-}
-
-.ref-line {
-  stroke: #666;
-  stroke-width: 1;
-}
-
-.ctrl-line {
-  stroke: #c9c9c9;
-  stroke-dasharray: 6,6;
-}
-
-.avg-glow {
-  stroke-width: 10;
-  opacity: 0.5;
-}
-
-.avg-label {
-  font-size: 32px;
-  alignment-baseline: mathematical;
-  text-anchor: middle;
-}
 
 rect {
   stroke: white;
   stroke-width: 4px;
+}
+
+
+.avg-label {
+  font-size: 24px;
+  alignment-baseline: mathematical;
+  text-anchor: middle;
 }
