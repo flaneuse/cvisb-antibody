@@ -1,8 +1,65 @@
-td{
+@import '~_custom_colors.scss';
+
+
+/* Container */
+#heatmap {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  background-color: aliceblue;
+}
+
+td {
   padding: 5px;
   /* border-radius: 5px; */
 }
 
 td {
-    border: black 1px solid;
+  border: black 1px solid;
+}
+
+body {
+  margin: 0;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.indiv {
+  stroke: black;
+  stroke-width: 1;
+  fill: #CCC;
+}
+
+.avg {
+  stroke: black;
+  stroke-width: 2;
+}
+
+.ref-line {
+  stroke: #666;
+  stroke-width: 1;
+}
+
+.ctrl-line {
+  stroke: #c9c9c9;
+  stroke-dasharray: 6,6;
+}
+
+.avg-glow {
+  stroke-width: 10;
+  opacity: 0.5;
+}
+
+.avg-label {
+  font-size: 32px;
+  alignment-baseline: mathematical;
+  text-anchor: middle;
+}
+
+rect {
+  stroke: white;
+  stroke-width: 4px;
 }
