@@ -2,10 +2,10 @@
 
 
 /* Container */
-#heatmap {
+.heatmap {
   position: relative;
   width: 100%;
-  height: 400px;
+  height: 200px;
   // background-color: aliceblue;
 }
 
@@ -33,9 +33,11 @@ rect {
   stroke-width: 4px;
 }
 
+.annotation {
+  alignment-baseline: mathematical;
+  text-anchor: middle;
+}
 
 .avg-label {
   font-size: 24px;
-  alignment-baseline: mathematical;
-  text-anchor: middle;
 }
