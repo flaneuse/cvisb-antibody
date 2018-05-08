@@ -1,9 +1,23 @@
 <!-- <app-heatmap-scalebar></app-heatmap-scalebar> -->
 
+<!-- <nav *ngFor = "let plate of plates">
+  <a href="#plate{{plate}}">plate {{ plate }}</a>
+</nav>
 
-<div  id="heatmap" #chart>
+<div *ngFor = "let plate of plates" id = "plate{{plate}}">
+  <h3>plate {{ plate }}</h3>
 
-<!-- 
+
+</div> -->
+<button (click) = "showAvg($event)">Show average</button>
+
+<h3>plate 2</h3>
+
+<div class="heatmap" id="heatmap{{plate}}" #chart>
+</div>
+
+
+<!--
 <table>
 <thead>
   <tr>
