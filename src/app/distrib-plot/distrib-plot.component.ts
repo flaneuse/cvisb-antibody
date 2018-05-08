@@ -88,7 +88,7 @@ export class DistribPlotComponent implements OnInit {
 
 
     var grp = this.dotplot.selectAll('.avg')
-      .data(this.df).enter().append('g')
+      .data(this.df).enter()
     // .enter().append('svg')
     // .attr("width", this.width/3)
     // .attr("height", this.height);
@@ -111,6 +111,8 @@ export class DistribPlotComponent implements OnInit {
       .call(d3.axisLeft(this.y));
 
 
+
+
     grp.selectAll('.ctrl-line')
       .data(this.ref_lines)
       .enter().append('line')
@@ -120,6 +122,8 @@ export class DistribPlotComponent implements OnInit {
       .attr("y2", (d, i) => this.y(d.value))
       .attr("x1", 0)
       .attr("x2", this.width);
+
+
 
 
     grp.append('g')
@@ -147,6 +151,13 @@ export class DistribPlotComponent implements OnInit {
       .attr("y2", (d, i) => this.y(d.avg))
       .attr("x1", d => this.x(d.sample_id) - this.avg_width + this.x.bandwidth()/2)
       .attr("x2", d => this.x(d.sample_id) + this.avg_width + this.x.bandwidth()/2);
+
+      grp.append('line')
+          .attr('class', 'divider')
+          .attr("y1", 0)
+          .attr("y2", this.height)
+          .attr("x1", d => this.x(d.sample_id) + this.x.bandwidth())
+          .attr("x2", d => this.x(d.sample_id) + this.x.bandwidth());
   }
 
 }
