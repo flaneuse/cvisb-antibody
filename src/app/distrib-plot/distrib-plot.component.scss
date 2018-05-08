@@ -2,7 +2,7 @@
 
 #distrib-dotplot {
   position: relative;
-  width: 100%;
+  width: 1500px;
   height: 350px;
   // background-color: lighten(aliceblue, 1.4);
 }
@@ -38,7 +38,7 @@
 }
 
 .axis--x text {
-  font-size: 24px;
+  font-size: 1em;
   color: $grey-800;
  }
 
@@ -52,5 +52,5 @@
 
 .divider {
   stroke: white;
-  stroke-width: 25;
+  stroke-width: 5;
 }
