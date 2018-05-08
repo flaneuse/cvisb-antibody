@@ -1,2 +1,37 @@
+<h1>Systems serology data viewer</h1>
+
+<app-upload-file></app-upload-file>
+<app-dwnld-files></app-dwnld-files>
+
+<h2>ADNP Experiment BMGEXP568</h2>
+
+
+<!-- <mat-tab-group>
+  <mat-tab label="Plate View">
+    <h1>Some tab content</h1>
+    <p>...</p>
+  </mat-tab>
+  <mat-tab label="Experiment View">
+    <h1>Some more tab content</h1>
+    <p>...</p>
+  </mat-tab>
+</mat-tab-group> -->
+<!--
+<button mat-raised-button color="accent">Plate View</button>
+<button mat-raised-button color="accent">Experiment View</button> -->
+
+<nav mat-tab-nav-bar>
+  <a mat-tab-link
+     *ngFor="let link of navLinks"
+     [routerLink]="link.path"
+     routerLinkActive #rla="routerLinkActive"
+     [active]="rla.isActive">
+    {{link.label}}
+  </a>
+</nav>
+
+<router-outlet></router-outlet>
+
 <app-plate-heatmap></app-plate-heatmap>
+
 <app-distrib-plot></app-distrib-plot>

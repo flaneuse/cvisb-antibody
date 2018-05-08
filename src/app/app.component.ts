@@ -9,4 +9,6 @@ import { Component } from '@angular/core';
 
 export class AppComponent {
   title = 'app';
+  navLinks = [    { 'path': 'plates', 'label': 'plate view' },
+    { 'path': 'expts', 'label': 'experiment view' }]
 }
