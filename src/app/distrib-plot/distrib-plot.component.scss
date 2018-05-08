@@ -1,16 +1,17 @@
 @import '~_custom_colors.scss';
 
 #distrib-dotplot {
-  position: relative;
-  width: 1500px;
-  height: 350px;
+  position: absolute;
+  left: 700px;
+  width: 1300px;
+  height: 600px;
   // background-color: lighten(aliceblue, 1.4);
 }
 
 .indiv {
   stroke: black;
   stroke-width: 1;
-  fill: #CCC;
+  fill: $grey-200;
 }
 
 .avg {
@@ -19,12 +20,12 @@
 }
 
 .ref-line {
-  stroke: #666;
+  stroke: $grey-400;
   stroke-width: 1;
 }
 
 .ctrl-line {
-  stroke: #c9c9c9;
+  stroke: $grey-300;
   stroke-dasharray: 6,6;
 }
 
@@ -53,4 +54,26 @@
 .divider {
   stroke: white;
   stroke-width: 5;
+}
+
+.expt-sample {
+  opacity: 0.1;
+}
+
+.display-off {
+  display: none;
+}
+
+.ctrl-label {
+  text-anchor: middle;
+}
+
+.ref-label {
+  fill: $grey-400;
+  font-weight: 300;
+  font-family: 'Assistant', sans-serif;
+}
+
+.right {
+  text-anchor: end;
 }
