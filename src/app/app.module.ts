@@ -20,6 +20,9 @@ import { DwnldFilesComponent } from './header/dwnld-files/dwnld-files.component'
 import { SaveFilesComponent } from './header/save-files/save-files.component';
 import { HeatmapKeyComponent } from './heatmap-key/heatmap-key.component';
 import { HeaderComponent } from './header/header.component';
+import { PlatesComponent } from './plates/plates.component';
+import { OverviewComponent } from './overview/overview.component';
+import { SortedDotplotComponent } from './sorted-dotplot/sorted-dotplot.component';
 
 
 @NgModule({
@@ -32,7 +35,10 @@ import { HeaderComponent } from './header/header.component';
     DwnldFilesComponent,
     SaveFilesComponent,
     HeatmapKeyComponent,
-    HeaderComponent
+    HeaderComponent,
+    PlatesComponent,
+    OverviewComponent,
+    SortedDotplotComponent
   ],
   imports: [
     BrowserModule,

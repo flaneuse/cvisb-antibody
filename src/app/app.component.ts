@@ -17,6 +17,6 @@ export class AppComponent {
   navLinks = [
     { 'path': 'overview', 'label': 'plate overview' },
     { 'path': 'plates', 'label': 'plate view' },
-    { 'path': 'expts', 'label': 'experiment view' }
+    { 'path': 'sorted', 'label': 'experiment view' }
   ];
 }
