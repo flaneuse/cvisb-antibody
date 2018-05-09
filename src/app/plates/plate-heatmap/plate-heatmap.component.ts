@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, ElementRef, Input } from '@angular/core';
 
 import * as d3 from 'd3';
 import * as d3Chromatic from 'd3-scale-chromatic';
@@ -12,6 +12,7 @@ import * as d3Chromatic from 'd3-scale-chromatic';
 
 export class PlateHeatmapComponent implements OnInit {
   @ViewChild('chart') private chartContainer: ElementRef;
+  @Input() private plate_num: number;
 
 
   df: Array<Object> = [

@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PlatesComponent implements OnInit {
 
+  private plates: number[] = [1,2];
+
   constructor() { }
 
   ngOnInit() {

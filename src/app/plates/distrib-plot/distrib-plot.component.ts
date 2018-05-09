@@ -4,7 +4,7 @@ import * as d3 from 'd3';
 import * as d3Chromatic from 'd3-scale-chromatic';
 
 // Data Service
-// import { GetDataService } from '../services/get-data.service';
+import { GetDataService } from '../../services/get-data.service';
 
 @Component({
   selector: 'app-distrib-plot',
@@ -2365,8 +2365,7 @@ export class DistribPlotComponent implements OnInit {
   private colorScale = d3.scaleSequential(d3Chromatic.interpolateYlGn).domain([0, 200]);
 
 
-  constructor(){
-    // private dataSvc: GetDataService) {
+  constructor(private dataSvc: GetDataService) {
   //   this.dataSvc.getData().subscribe(data => {
   //   console.log('subscribing')
   //   console.log(data)

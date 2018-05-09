@@ -1,7 +1,13 @@
-<div class="half">
-<app-plate-heatmap></app-plate-heatmap>
-</div>
+<div *ngFor = 'let plateNum of plates' id="plate{{ plateNum }}">
 
-<div class="half">
-<app-distrib-plot></app-distrib-plot>
+  <h3>plate {{ plateNum }}</h3>
+
+  <div class="half">
+  <app-plate-heatmap [plate_num]='plateNum'></app-plate-heatmap>
+  </div>
+
+  <div class="half">
+  <app-distrib-plot></app-distrib-plot>
+  </div>
+
 </div>

@@ -12,6 +12,7 @@ export class AppComponent {
 
   private expt_type: string = 'ADCD';
   private expt_id: string = 'BMGEXP577';
+  private plates: number[] = [1,2];
 
 
   navLinks = [

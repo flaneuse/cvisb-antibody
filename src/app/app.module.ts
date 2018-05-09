@@ -12,13 +12,13 @@ import { GetDataService } from './services/get-data.service';
 
 // custom components
 import { AppComponent } from './app.component';
-import { PlateHeatmapComponent } from './plate-heatmap/plate-heatmap.component';
-import { HeatmapScalebarComponent } from './plate-heatmap/heatmap-scalebar/heatmap-scalebar.component';
-import { DistribPlotComponent } from './distrib-plot/distrib-plot.component';
+import { PlateHeatmapComponent } from './plates/plate-heatmap/plate-heatmap.component';
+import { HeatmapScalebarComponent } from './plates/heatmap-scalebar/heatmap-scalebar.component';
+import { DistribPlotComponent } from './plates/distrib-plot/distrib-plot.component';
 import { UploadFileComponent } from './header/upload-file/upload-file.component';
 import { DwnldFilesComponent } from './header/dwnld-files/dwnld-files.component';
 import { SaveFilesComponent } from './header/save-files/save-files.component';
-import { HeatmapKeyComponent } from './heatmap-key/heatmap-key.component';
+import { HeatmapKeyComponent } from './plates/heatmap-key/heatmap-key.component';
 import { HeaderComponent } from './header/header.component';
 import { PlatesComponent } from './plates/plates.component';
 import { OverviewComponent } from './overview/overview.component';
