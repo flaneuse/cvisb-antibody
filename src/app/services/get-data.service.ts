@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
+import * as d3 from 'd3';
+import * as d3Chromatic from 'd3-scale-chromatic';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -9,12 +12,38 @@ import { Observable, of } from 'rxjs';
 // Required to return asynchronously
 // Async help: https://stackoverflow.com/questions/47062994/angular-2-4-filereader-service
 export class GetDataService {
-  data: any;
+  public data: Array<Object>;
+  public colorScale: any; // D3 color function
+
 
   constructor() { }
 
-  test_func() {
-    console.log('yipppee')
+  setColorScale(colorInterpolator: any = d3Chromatic.interpolateYlGn, log = false, logbase = 10) {
+    // Set up main color scale.
+    this.colorScale = d3.scaleSequential(colorInterpolator);
+
+    // Set the domain, if data exists.
+    if (this.data) {
+      // console.log('setting the properties of the color palette');
+
+      let fluor_scores = this.data.map(d => d.fluor_score);
+
+      d3.min(fluor_scores)
+
+      let fluor_range = [d3.min(fluor_scores), d3.max(fluor_scores)];
+
+      // log-scale the colors, if specified.
+      if (log) {
+        fluor_range = fluor_range.map(d => Math.log(d) / Math.log(logbase))
+      }
+
+      this.colorScale.domain(fluor_range);
+    }
+
+  }
+
+  getData() {
+    return this.data;
   }
 
   // Modified from https://stackoverflow.com/questions/45441962/how-to-upload-a-csv-file-and-read-them-using-angular2
@@ -36,6 +65,10 @@ export class GetDataService {
           //
           this.data = this.parse_json(data_string);
 
+          // set the domain of the color scale
+          this.setColorScale();
+
+          // temporary: to save the data
           let jsonData = JSON.stringify(this.data);
           function download(content, fileName, contentType) {
             var a = document.createElement("a");

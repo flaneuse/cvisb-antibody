@@ -9,6 +9,14 @@ import { Component } from '@angular/core';
 
 export class AppComponent {
   title = 'app';
-  navLinks = [    { 'path': 'plates', 'label': 'plate view' },
-    { 'path': 'expts', 'label': 'experiment view' }]
+
+  private expt_type: string = 'ADCD';
+  private expt_id: string = 'BMGEXP577';
+
+
+  navLinks = [
+    { 'path': 'overview', 'label': 'plate overview' },
+    { 'path': 'plates', 'label': 'plate view' },
+    { 'path': 'expts', 'label': 'experiment view' }
+  ];
 }

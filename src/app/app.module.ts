@@ -5,16 +5,21 @@ import { HttpClientModule } from '@angular/common/http';
 // Helpers
 import { AppRoutingModule } from './/app-routing.module';
 import { MaterialModule } from './material.module';
+import { FlexLayoutModule } from "@angular/flex-layout";
 
 // services
 import { GetDataService } from './services/get-data.service';
 
+// custom components
 import { AppComponent } from './app.component';
 import { PlateHeatmapComponent } from './plate-heatmap/plate-heatmap.component';
 import { HeatmapScalebarComponent } from './plate-heatmap/heatmap-scalebar/heatmap-scalebar.component';
 import { DistribPlotComponent } from './distrib-plot/distrib-plot.component';
-import { UploadFileComponent } from './upload-file/upload-file.component';
-import { DwnldFilesComponent } from './dwnld-files/dwnld-files.component';
+import { UploadFileComponent } from './header/upload-file/upload-file.component';
+import { DwnldFilesComponent } from './header/dwnld-files/dwnld-files.component';
+import { SaveFilesComponent } from './header/save-files/save-files.component';
+import { HeatmapKeyComponent } from './heatmap-key/heatmap-key.component';
+import { HeaderComponent } from './header/header.component';
 
 
 @NgModule({
@@ -24,12 +29,16 @@ import { DwnldFilesComponent } from './dwnld-files/dwnld-files.component';
     HeatmapScalebarComponent,
     DistribPlotComponent,
     UploadFileComponent,
-    DwnldFilesComponent
+    DwnldFilesComponent,
+    SaveFilesComponent,
+    HeatmapKeyComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     MaterialModule,
+    FlexLayoutModule,
     AppRoutingModule
   ],
   providers: [

@@ -1,12 +1,4 @@
-<h1>Systems serology data viewer</h1>
-
-<app-upload-file></app-upload-file>
-<app-dwnld-files></app-dwnld-files>
-
-<h2>ADCD Experiment BMGEXP568</h2>
-
-<button>Save to CViSB Dropbox</button>
-
+<app-header></app-header>
 
 <!-- <mat-tab-group>
   <mat-tab label="Plate View">
@@ -31,6 +23,8 @@
     {{link.label}}
   </a>
 </nav>
+
+<h2>{{expt_type}} Experiment {{expt_id}}</h2>
 
 <router-outlet></router-outlet>
 

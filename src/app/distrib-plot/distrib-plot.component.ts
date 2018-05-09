@@ -3,6 +3,9 @@ import { Component, OnInit, ViewChild, ViewEncapsulation, ElementRef } from '@an
 import * as d3 from 'd3';
 import * as d3Chromatic from 'd3-scale-chromatic';
 
+// Data Service
+import { GetDataService } from '../services/get-data.service';
+
 @Component({
   selector: 'app-distrib-plot',
   templateUrl: './distrib-plot.component.html',
@@ -14,6 +17,7 @@ export class DistribPlotComponent implements OnInit {
   @ViewChild('chart') private chartContainer: ElementRef;
 
   df: Array<Object>;
+  test: any;
 
 
   // df: Array<Object> = [
@@ -2331,6 +2335,7 @@ export class DistribPlotComponent implements OnInit {
         "num_obs": 3
       }]
 
+// TODO: properly calc ref lines
   ref_lines: Array<Object> = [
     { 'label': 'negative control', 'value': 0.1438786667 },
     { 'label': 'positive control', 'value': 180.97593 },
@@ -2360,7 +2365,14 @@ export class DistribPlotComponent implements OnInit {
   private colorScale = d3.scaleSequential(d3Chromatic.interpolateYlGn).domain([0, 200]);
 
 
-  constructor() { }
+  constructor(private dataSvc: GetDataService) {
+  //   this.dataSvc.getData().subscribe(data => {
+  //   console.log('subscribing')
+  //   console.log(data)
+  //   this.test = data;
+  //   console.log(this.test)
+  // });
+  }
 
   ngOnInit() {
     // this.df = this.df.sort((a,b) => a.avg - b.avg);
@@ -2414,7 +2426,7 @@ export class DistribPlotComponent implements OnInit {
 
     // selectors
     this.dotplot = svg.append("g")
-      .attr("id", "heatmap")
+      .attr("id", "dotplot")
       .attr("transform", `translate(${this.margin.left}, ${this.margin.top})`);
 
 

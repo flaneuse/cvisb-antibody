@@ -2,7 +2,7 @@ import { Component, OnInit, OnChanges } from '@angular/core';
 // import { HttpClient, HttpParams, HttpRequest, HttpEvent, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 // import { Observable } from "rxjs";
 
-import { GetDataService } from '../services/get-data.service';
+import { GetDataService } from '../../services/get-data.service';
 
 @Component({
   selector: 'app-upload-file',
