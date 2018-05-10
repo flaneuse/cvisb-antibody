@@ -20,7 +20,6 @@ export class DistribPlotComponent implements OnInit {
   nested_df: Array<Object>;
 
 
-  // TODO: properly calc ref lines
   ref_lines: Array<Object> = [];
 
   // --- Plot sizing ---
