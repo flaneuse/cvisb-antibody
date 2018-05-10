@@ -7,7 +7,7 @@ import * as d3Chromatic from 'd3-scale-chromatic';
   selector: 'app-plate-heatmap',
   templateUrl: './plate-heatmap.component.html',
   styleUrls: ['./plate-heatmap.component.scss'],
-  encapsulation: ViewEncapsulation.Native
+  encapsulation: ViewEncapsulation.None
 })
 
 export class PlateHeatmapComponent implements OnInit {
