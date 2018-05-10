@@ -1,14 +1,14 @@
-<div fxLayout="row" fxFlex fxLayoutAlign="space-between center" >
+<div fxLayout="row" fxFlex fxLayoutAlign="space-between center" *ngIf="expt_id">
 
 <div fxLayout="row" fxLayoutAlign="start center">
   <h2>{{expt_type}} Experiment {{expt_id}}</h2>
 
-  <ul class='plate-links'>
+  <!-- <ul class='plate-links'>
     <li *ngFor = 'let plateNum of plates'>
 
       <h3><a href="/plates/#plate{{ plateNum }}">plate {{ plateNum }}</a></h3>
     </li>
-  </ul>
+  </ul> -->
 </div>
 
   <div fxLayout="row" fxLayoutAlign="end center">

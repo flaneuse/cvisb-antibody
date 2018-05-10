@@ -72,7 +72,7 @@ export class GetDataService {
   read_json(event: any) {
     let files: FileList = event.target.files;
 
-    console.log(files);
+    // console.log(files);
     if (files && files.length > 0) {
       let file: File = files.item(0);
       // console.log(file.name);

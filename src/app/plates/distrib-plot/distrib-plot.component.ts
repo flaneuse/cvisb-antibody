@@ -19,20 +19,9 @@ export class DistribPlotComponent implements OnInit {
 
   nested_df: Array<Object>;
 
-  // df: Array<Object> = [
-  //   { 'sample_id': 'TUL5', 'avg': 22.4791, 'indivs': [31.06754, 18.08720, 18.28256], 'row': "E", 'cols': [1, 2, 3] },
-  //   { 'sample_id': 'TUL23', 'avg': 54.80144, 'indivs': [49.96560, 57.62928, 56.80943], 'row': "G", 'cols': [7, 8, 9] },
-  //   { 'sample_id': 'TUL3', 'avg': 8.75909, 'indivs': [9.07368, 8.61540, 8.58819], 'row': "C", 'cols': [1, 2, 3] }
-  // ]
-  //
-  //
 
   // TODO: properly calc ref lines
-  ref_lines: Array<Object> = [
-    { 'label': 'negative control', 'value': 0.1438786667 },
-    { 'label': 'positive control', 'value': 180.97593 },
-    { 'label': 'plate median', 'value': d3.median(this.df.map(d => d.fluor_score)) }
-  ];
+  ref_lines: Array<Object> = [];
 
   // --- Plot sizing ---
   private element: any;
@@ -61,13 +50,15 @@ export class DistribPlotComponent implements OnInit {
 
 
   ngOnInit() {
-        // console.log(this.nested_df)
+    // console.log(this.nested_df)
 
     this.createChart();
   }
 
   ngOnChanges() {
     this.df = this.df.filter(d => d.plate == this.plate_num);
+
+    this.calcSummaryStats();
 
     this.createChart();
     this.nested_df = d3.nest()
@@ -93,6 +84,14 @@ export class DistribPlotComponent implements OnInit {
     this.element_dims = this.element.getBoundingClientRect();
     this.width = this.element.offsetWidth / 2 - this.margin.left - this.margin.right;
     this.height = this.element.offsetHeight - this.margin.top - this.margin.bottom;
+  }
+
+  calcSummaryStats() {
+    this.ref_lines = [
+      { 'label': 'negative control', 'value': d3.mean(this.df.filter(d => d.sample_type === 'negative control').map(d => d.fluor_score)) },
+      { 'label': 'positive control', 'value': d3.mean(this.df.filter(d => d.sample_type === 'positive control').map(d => d.fluor_score)) },
+      { 'label': 'plate median', 'value': d3.median(this.df.map(d => d.fluor_score)) }
+    ];
   }
 
   // Data-independent setup
