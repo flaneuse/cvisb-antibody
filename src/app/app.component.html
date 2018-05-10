@@ -10,15 +10,6 @@
   </a>
 </nav>
 
-<div fxLayout="row" fxFlex>
-  <h2>{{expt_type}} Experiment {{expt_id}}</h2>
 
-  <ul class='plate-links'>
-    <li *ngFor = 'let plateNum of plates'>
-
-      <h3><a href="/plates/#plate{{ plateNum }}">plate {{ plateNum }}</a></h3>
-    </li>
-  </ul>
-</div>
 
 <router-outlet></router-outlet>

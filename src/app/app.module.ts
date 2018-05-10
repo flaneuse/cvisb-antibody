@@ -23,6 +23,7 @@ import { HeaderComponent } from './header/header.component';
 import { PlatesComponent } from './plates/plates.component';
 import { OverviewComponent } from './overview/overview.component';
 import { SortedDotplotComponent } from './sorted-dotplot/sorted-dotplot.component';
+import { DotplotKeyComponent } from './dotplot-key/dotplot-key.component';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { SortedDotplotComponent } from './sorted-dotplot/sorted-dotplot.componen
     HeaderComponent,
     PlatesComponent,
     OverviewComponent,
-    SortedDotplotComponent
+    SortedDotplotComponent,
+    DotplotKeyComponent
   ],
   imports: [
     BrowserModule,

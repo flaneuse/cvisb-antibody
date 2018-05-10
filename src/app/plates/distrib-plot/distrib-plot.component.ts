@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ViewEncapsulation, ElementRef } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, ViewChild, ViewEncapsulation, ElementRef } from '@angular/core';
 import { Subscription } from 'rxjs/';
 
 import * as d3 from 'd3';
@@ -15,6 +15,7 @@ export class DistribPlotComponent implements OnInit {
   @ViewChild('chart') private chartContainer: ElementRef;
   @Input() private plate_num: number;
   @Input() private df: Array<Object> = [];
+  @Input() private colorScale: any;
 
   nested_df: Array<Object>;
 
@@ -26,7 +27,7 @@ export class DistribPlotComponent implements OnInit {
   //
   //
 
-// TODO: properly calc ref lines
+  // TODO: properly calc ref lines
   ref_lines: Array<Object> = [
     { 'label': 'negative control', 'value': 0.1438786667 },
     { 'label': 'positive control', 'value': 180.97593 },
@@ -53,9 +54,6 @@ export class DistribPlotComponent implements OnInit {
   private indiv_r: number = 6;
   private avg_width: number = 20;
 
-  private colorScale = d3.scaleSequential(d3Chromatic.interpolateYlGn).domain([0, 200]);
-
-
   constructor() {
 
   }
@@ -63,8 +61,15 @@ export class DistribPlotComponent implements OnInit {
 
 
   ngOnInit() {
+        // console.log(this.nested_df)
+
+    this.createChart();
+  }
+
+  ngOnChanges() {
     this.df = this.df.filter(d => d.plate == this.plate_num);
 
+    this.createChart();
     this.nested_df = d3.nest()
       .key(d => d.sample_id)
       .rollup(function(leaves: any) {
@@ -78,9 +83,8 @@ export class DistribPlotComponent implements OnInit {
       .entries(this.df)
       .sort((a, b) => a.value.sample_mean - b.value.sample_mean);
 
-    // console.log(this.nested_df)
-
-    this.createChart();
+    this.populateChart();
+    // }
   }
 
   getSVGDims() {
@@ -97,11 +101,9 @@ export class DistribPlotComponent implements OnInit {
 
     // this.rect_width = this.width / this.df.length;
 
-    this.x = d3.scaleBand().range([0, this.width]).domain(this.nested_df.map(d => d.key));
-
-    let indiv_max = this.nested_df.map(d => d3.max(d.value.indivs))
+    this.x = d3.scaleBand().range([0, this.width]);
     // this.y = d3.scaleLinear().range([this.height, 0]).domain([0, d3.max(indiv_max)])
-    this.y = d3.scaleLog().range([this.height, 0]).domain([.05, d3.max(indiv_max)])
+    this.y = d3.scaleLog().range([this.height, 0]);
 
 
     // this.y = d3.scaleLinear().range([this.height, 0]).domain([0, d3.max(this.df.map(d => d.value.indivs.map(g => g)))]);
@@ -117,6 +119,14 @@ export class DistribPlotComponent implements OnInit {
       .attr("id", "dotplot")
       .attr("transform", `translate(${this.margin.left}, ${this.margin.top})`);
 
+  }
+
+  populateChart() {
+    // update domains of scales
+    this.x.domain(this.nested_df.map(d => d.key));
+
+    let indiv_max = this.nested_df.map(d => d3.max(d.value.indivs));
+    this.y.domain([.05, d3.max(indiv_max)]);
 
     let refs = this.dotplot.selectAll('.ctrl-line')
       .data(this.ref_lines)

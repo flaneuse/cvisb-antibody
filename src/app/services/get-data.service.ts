@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+// import { Observable, of } from 'rxjs';
+
+import { Observable, Subject } from 'rxjs/';
 
 import * as d3 from 'd3';
 import * as d3Chromatic from 'd3-scale-chromatic';
@@ -12,23 +14,46 @@ import * as d3Chromatic from 'd3-scale-chromatic';
 // Required to return asynchronously
 // Async help: https://stackoverflow.com/questions/47062994/angular-2-4-filereader-service
 export class GetDataService {
-  public data: Array<Object>;
-  public colorScale: any; // D3 color function
+
+  private subject = new Subject<any>();
 
 
-  constructor() { }
+  private data: Array<Object>; // main holder for the data
+  private colorScale: any; // D3 color function
+
+  private dataSource = new Subject<Object>();
+  private colorSource = new Subject<any>();
+  private testSource = new Subject<string>();
+
+  // Observable data/color function streams
+  dataRetrived$ = this.dataSource.asObservable();
+  colorScaleRetrieved$ = this.colorSource.asObservable();
+
+  constructor() {
+  }
+
+  getUserObservable(): Observable<any> {
+    return this.subject.asObservable();
+  }
+
+  setUser(user: any): void {
+    this.subject.next(user);
+  }
+
+  // getData() {
+  //   this.dataSource.next(this.data);
+  //   this.colorSource.next(this.colorScale);
+  // }
 
   setColorScale(colorInterpolator: any = d3Chromatic.interpolateYlGn, log = false, logbase = 10) {
     // Set up main color scale.
     this.colorScale = d3.scaleSequential(colorInterpolator);
 
-    // Set the domain, if data exists.
+    // Set the domain to be the min/max of data, if data exists.
     if (this.data) {
       // console.log('setting the properties of the color palette');
 
       let fluor_scores = this.data.map(d => d.fluor_score);
-
-      d3.min(fluor_scores)
 
       let fluor_range = [d3.min(fluor_scores), d3.max(fluor_scores)];
 
@@ -36,21 +61,18 @@ export class GetDataService {
       if (log) {
         fluor_range = fluor_range.map(d => Math.log(d) / Math.log(logbase))
       }
-
+      // Set the domain of the colors
       this.colorScale.domain(fluor_range);
     }
 
   }
 
-  getData() {
-    return this.data;
-  }
 
   // Modified from https://stackoverflow.com/questions/45441962/how-to-upload-a-csv-file-and-read-them-using-angular2
-  read_json(event: any): Observable<any> {
+  read_json(event: any) {
     let files: FileList = event.target.files;
 
-    // console.log(files);
+    console.log(files);
     if (files && files.length > 0) {
       let file: File = files.item(0);
       // console.log(file.name);
@@ -58,32 +80,40 @@ export class GetDataService {
       // console.log(file.type);
       let reader: FileReader = new FileReader();
       reader.readAsText(file);
-      return Observable.create(observer => {
-        reader.onloadend = (e) => {
-          let data_string: string = reader.result;
-          // console.log(data_string);
-          //
-          this.data = this.parse_json(data_string);
 
-          // set the domain of the color scale
-          this.setColorScale();
 
-          // temporary: to save the data
-          let jsonData = JSON.stringify(this.data);
-          function download(content, fileName, contentType) {
-            var a = document.createElement("a");
-            var file = new Blob([content], { type: contentType });
-            a.href = URL.createObjectURL(file);
-            a.download = fileName;
-            a.click();
-          }
-          download(jsonData, 'jsonData.json', 'text/plain');
+      // return Observable.create(observer => {
+      reader.onloadend = (e) => {
+        let data_string: string = reader.result;
+        // console.log(data_string);
+        //
+        this.data = this.parse_json(data_string);
 
-          observer.next(this.data);
-          observer.complete();
+        // set the domain of the color scale
+        this.setColorScale();
 
-        }
-      })
+        // // temporary: to save the data
+        // let jsonData = JSON.stringify(this.data);
+        // function download(content, fileName, contentType) {
+        //   var a = document.createElement("a");
+        //   var file = new Blob([content], { type: contentType });
+        //   a.href = URL.createObjectURL(file);
+        //   a.download = fileName;
+        //   a.click();
+        // }
+        // download(jsonData, 'jsonData.json', 'text/plain');
+
+        // observer.next(this.data);
+        // console.log(this.dataSource)
+        // console.log(this.dataRetrived$)
+        this.dataSource.next({'df': this.data, 'colors': this.colorScale});
+        // console.log(this.dataSource)
+        // console.log(this.dataRetrived$)
+        // this.colorSource.next(this.colorScale);
+        // observer.complete();
+
+      }
+      // })
     }
 
     // console.log(this.data);

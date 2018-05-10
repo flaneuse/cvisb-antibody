@@ -1,35 +1,43 @@
-<h2>Mission Control</h2>
-<button (click)="announce()">Announce mission</button>
-<!-- <app-astronaut *ngFor="let astronaut of astronauts"
-  [astronaut]="astronaut">
-</app-astronaut> -->
-<h3>History</h3>
-<ul>
-  <li *ngFor="let event of history">{{event}}</li>
-</ul>
+<div fxLayout="row" fxFlex fxLayoutAlign="space-between center" >
 
-<div fxLayout="row" fxLayoutAlign="end center">
-  <div class="key">
-    Key
-  </div>
-  <div class="key">
-    <app-heatmap-key></app-heatmap-key>
-  </div>
-  <div class="key">
-    <app-dotplot-key></app-dotplot-key>
+<div fxLayout="row" fxLayoutAlign="start center">
+  <h2>{{expt_type}} Experiment {{expt_id}}</h2>
+
+  <ul class='plate-links'>
+    <li *ngFor = 'let plateNum of plates'>
+
+      <h3><a href="/plates/#plate{{ plateNum }}">plate {{ plateNum }}</a></h3>
+    </li>
+  </ul>
+</div>
+
+  <div fxLayout="row" fxLayoutAlign="end center">
+    <div class="key">
+      Key
+    </div>
+    <div class="key">
+      <app-heatmap-key></app-heatmap-key>
+    </div>
+    <div class="key">
+      <app-dotplot-key></app-dotplot-key>
+    </div>
   </div>
 </div>
 
-<div *ngFor = 'let plateNum of plates' id="plate{{ plateNum }}">
 
-  <h3>plate {{ plateNum }}</h3>
 
-  <div class="half">
-  <app-plate-heatmap [plate_num]='plateNum' [df]='DF'></app-plate-heatmap>
+<ng-container *ngIf="DF">
+  <div *ngFor='let plateNum of plates' id="plate{{ plateNum }}">
+
+    <h3>plate {{ plateNum }}</h3>
+
+    <div class="half">
+      <app-plate-heatmap [plate_num]='plateNum' [df]='DF' [colorScale]='color_scale'></app-plate-heatmap>
+    </div>
+
+    <div class="half">
+      <app-distrib-plot [plate_num]='plateNum' [df]='DF' [colorScale]='color_scale'></app-distrib-plot>
+    </div>
+
   </div>
-
-  <div class="half">
-  <app-distrib-plot [plate_num]='plateNum' [df]='DF'></app-distrib-plot>
-  </div>
-
-</div>
+</ng-container>

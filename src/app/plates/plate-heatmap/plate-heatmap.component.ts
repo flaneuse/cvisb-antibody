@@ -14,6 +14,7 @@ export class PlateHeatmapComponent implements OnInit {
   @ViewChild('chart') private chartContainer: ElementRef;
   @Input() private plate_num: number;
   @Input() private df: Array<Object> = [];
+  @Input() private colorScale: any;
 
 
   // df: Array<Object> = [
@@ -43,12 +44,13 @@ export class PlateHeatmapComponent implements OnInit {
   private xAxis: any;
   private yAxis: any;
 
-  private colorScale = d3.scaleSequential(d3Chromatic.interpolateYlGn).domain([0, 200]);
+  // private colorScale = d3.scaleSequential(d3Chromatic.interpolateYlGn).domain([0, 200]);
 
   constructor() { }
 
   ngOnInit() {
     this.df = this.df.filter(d => d.plate == this.plate_num);
+    console.log(this.colorScale.domain())
 
     //
     // this.fluorcts = [
@@ -112,7 +114,7 @@ export class PlateHeatmapComponent implements OnInit {
 
   // Data-independent setup
   createChart() {
-  console.log(this.df)
+  // console.log(this.df)
     this.getSVGDims();
 
     this.rect_width = this.width / this.df.length;

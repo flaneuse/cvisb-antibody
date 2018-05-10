@@ -14,25 +14,26 @@ export class UploadFileComponent implements OnInit {
   plates: Array<number> = [];
 
   // constructor() { }
-  constructor(private dataSvc: GetDataService) { }
+  constructor(private dataSvc: GetDataService
+) { }
 
   ngOnInit() {
   }
 
   ngOnChanges(){
-    console.log('chchchanges')
-    console.log(this.plates)
   }
 
   public fileChange(event) {
-    // console.log('uploaded');
+    console.log('uploaded');
+
     // console.log(event);
-    this.dataSvc.read_json(event).subscribe(data => {
-    console.log('subscribing')
-    console.log(data)
-    this.data = data;
-    console.log(this.data)
-  });
+    this.dataSvc.read_json(event);
+  //   .subscribe(data => {
+  //   console.log('subscribing')
+  //   console.log(data)
+  //   this.data = data;
+  //   console.log(this.data)
+  // });
     // console.log(this.data)
     }
 

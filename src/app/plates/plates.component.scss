@@ -8,7 +8,26 @@
 
 .key {
   margin-left: 25px;
+  margin-top: 10px;
   text-transform: uppercase;
   font-size: 0.85em;
   color: $grey-400;
+}
+
+
+ul {
+  list-style-type: none;
+}
+
+li {
+  display: inline-block;
+  padding: 5px;
+}
+
+ul, h2 {
+  margin-top: 10px;
+}
+
+h3 {
+  margin: 0px;
 }
