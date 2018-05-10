@@ -1,0 +1,49 @@
+@import '~_custom_colors.scss';
+
+.key {
+  width: 100px;
+  height: 100px;
+  border: $grey-600 solid 1px;
+}
+
+
+// Heatmap styling
+.indiv-heatmap {
+  stroke: grey;
+  stroke-dasharray: 4,4;
+  stroke-width: 1px;
+}
+
+.dashed {
+  stroke-dasharray: 4,4;
+}
+
+.avg-border {
+  fill: none;
+  stroke: $grey-600;
+  stroke-width: 2px;
+  // ;
+}
+
+.axis--x path, .axis--x line, .axis--y path, .axis--y line {
+  display: none;
+}
+
+.axis text {
+  fill: $grey-400;
+  font-size: 1.75em;
+}
+
+// Annotations
+.annotation {
+  alignment-baseline: mathematical;
+  text-anchor: middle;
+}
+
+.avg-label {
+  font-size: 24px;
+}
+
+.repl-leader {
+  stroke: $grey-600;
+}

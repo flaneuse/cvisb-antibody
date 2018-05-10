@@ -1,0 +1,39 @@
+@import '~_custom_colors.scss';
+
+.key {
+  width: 170px;
+  height: 100px;
+  border: $grey-600 solid 1px;
+}
+
+
+.indiv {
+  stroke: black;
+  stroke-width: 1;
+  fill: $grey-200;
+}
+
+.avg {
+  stroke: black;
+  stroke-width: 2;
+}
+
+.ref-line {
+  stroke: $grey-400;
+  stroke-width: 1;
+}
+
+.ctrl-line {
+  stroke: $grey-300;
+  stroke-dasharray: 6,6;
+}
+
+.avg-glow {
+  stroke-width: 10;
+  opacity: 0.5;
+}
+
+
+.key-label {
+  alignment-baseline: middle;
+}

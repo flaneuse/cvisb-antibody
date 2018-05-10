@@ -78,7 +78,7 @@ export class DistribPlotComponent implements OnInit {
       .entries(this.df)
       .sort((a, b) => a.value.sample_mean - b.value.sample_mean);
 
-    // console.log(this.df)
+    // console.log(this.nested_df)
 
     this.createChart();
   }

@@ -112,6 +112,7 @@ export class PlateHeatmapComponent implements OnInit {
 
   // Data-independent setup
   createChart() {
+  console.log(this.df)
     this.getSVGDims();
 
     this.rect_width = this.width / this.df.length;

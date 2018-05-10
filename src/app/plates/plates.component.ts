@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { MissionService } from '../services/mission.service';
+import { Subscription }   from 'rxjs';
 
 @Component({
   selector: 'app-plates',
@@ -11,26 +12,30 @@ export class PlatesComponent implements OnInit {
 
   private plates: number[] = [1, 2];
 
-  astronauts = ['Lovell', 'Swigert', 'Haise'];
-  history: string[] = [];
-  missions = ['Fly to the moon!',
-    'Fly to mars!',
-    'Fly to Vegas!'];
-  nextMission = 0;
+  // @Input() astronaut: string;
+mission = '<no mission announced>';
+confirmed = false;
+announced = false;
+subscription: Subscription;
 
-  constructor(private missionService: MissionService) {
-    missionService.missionConfirmed$.subscribe(
-      astronaut => {
-        this.history.push(`${astronaut} confirmed the mission`);
-      });
-  }
+constructor(private missionService: MissionService) {
+  this.subscription = missionService.missionAnnounced$.subscribe(
+    mission => {
+      this.mission = mission;
+      this.announced = true;
+      this.confirmed = false;
+  });
+}
 
-  announce() {
-    let mission = this.missions[this.nextMission++];
-    this.missionService.announceMission(mission);
-    this.history.push(`Mission "${mission}" announced`);
-    if (this.nextMission >= this.missions.length) { this.nextMission = 0; }
-  }
+confirm() {
+  this.confirmed = true;
+  this.missionService.confirmMission();
+}
+
+ngOnDestroy() {
+  // prevent memory leak when component destroyed
+  this.subscription.unsubscribe();
+}
 
 
   ngOnInit() {

@@ -8,6 +8,17 @@
   <li *ngFor="let event of history">{{event}}</li>
 </ul>
 
+<div fxLayout="row" fxLayoutAlign="end center">
+  <div class="key">
+    Key
+  </div>
+  <div class="key">
+    <app-heatmap-key></app-heatmap-key>
+  </div>
+  <div class="key">
+    <app-dotplot-key></app-dotplot-key>
+  </div>
+</div>
 
 <div *ngFor = 'let plateNum of plates' id="plate{{ plateNum }}">
 
