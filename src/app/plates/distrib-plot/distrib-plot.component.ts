@@ -82,7 +82,7 @@ export class DistribPlotComponent implements OnInit {
     // Find container; define width/height of svg obj.
     this.element = this.chartContainer.nativeElement;
     this.element_dims = this.element.getBoundingClientRect();
-    this.width = this.element.offsetWidth / 2 - this.margin.left - this.margin.right;
+    this.width = this.element.offsetWidth - this.margin.left - this.margin.right;
     this.height = this.element.offsetHeight - this.margin.top - this.margin.bottom;
   }
 

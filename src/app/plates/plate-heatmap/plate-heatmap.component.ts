@@ -79,7 +79,7 @@ export class PlateHeatmapComponent implements OnInit {
     // Find container; define width/height of svg obj.
     this.element = this.chartContainer.nativeElement;
     this.element_dims = this.element.getBoundingClientRect();
-    this.width = this.element.offsetWidth / 2 - this.margin.left - this.margin.right;
+    this.width = this.element.offsetWidth - this.margin.left - this.margin.right;
     this.height = this.element.offsetHeight - this.margin.top - this.margin.bottom;
   }
 
@@ -178,7 +178,16 @@ export class PlateHeatmapComponent implements OnInit {
       .attr('class', 'annotation')
       .attr('x', (d, i) => this.x(d.col) + this.x.bandwidth()*1.5)
       .attr('y', d => this.y(d.row) + this.y.bandwidth() / 3 * 2)
+      .attr('dy', "-0.5em")
       .text(d => d.sample_id);
+
+
+    this.sel_avg.append('text')
+      .attr('class', 'annotation fluor-value')
+      .attr('x', (d, i) => this.x(d.col) + this.x.bandwidth()*1.5)
+      .attr('y', d => this.y(d.row) + this.y.bandwidth() / 3 * 2)
+      .attr('dy', "0.8em")
+      .text(d => d3.format(".1f")(d.sample_mean));
 
 
 

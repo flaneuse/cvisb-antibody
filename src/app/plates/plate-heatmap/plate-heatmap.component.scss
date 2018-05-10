@@ -4,10 +4,11 @@
 //   width: 1000px;
 // }
 /* Container */
+// TODO: dynamically size
 .heatmap {
   position: absolute;
-  width: 1300px;
-  height: 600px;
+  width: 650px;
+  height: 650px;
   // background-color: aliceblue;
 }
 
@@ -47,4 +48,8 @@
 
 .avg-label {
   font-size: 24px;
+}
+
+.fluor-value{
+  font-size: 0.85em;
 }
