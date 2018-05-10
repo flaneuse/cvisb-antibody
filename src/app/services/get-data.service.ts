@@ -45,9 +45,9 @@ export class GetDataService {
   //   this.colorSource.next(this.colorScale);
   // }
 
-  setColorScale(colorInterpolator: any = d3Chromatic.interpolateYlGn, log = false, logbase = 10) {
+  setColorScale(colorInterpolator: any = d3Chromatic.interpolateYlGn, log = true, logbase = 10) {
     // Set up main color scale.
-    this.colorScale = d3.scaleSequential(colorInterpolator);
+    let scale = d3.scaleSequential(colorInterpolator);
 
     // Set the domain to be the min/max of data, if data exists.
     if (this.data) {
@@ -59,10 +59,23 @@ export class GetDataService {
 
       // log-scale the colors, if specified.
       if (log) {
+      console.log(fluor_range)
         fluor_range = fluor_range.map(d => Math.log(d) / Math.log(logbase))
+        console.log(fluor_range)
       }
+
       // Set the domain of the colors
-      this.colorScale.domain(fluor_range);
+      scale.domain(fluor_range);
+
+      let colorFunc = function(value) {
+      // if log-transformed, transform the values before feeding into the color function
+      if (log) {
+        return scale( Math.log(value) / Math.log(logbase))
+      }
+      return scale(value)
+      }
+
+      this.colorScale = colorFunc;
     }
 
   }

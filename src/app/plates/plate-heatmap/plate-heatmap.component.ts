@@ -50,7 +50,7 @@ export class PlateHeatmapComponent implements OnInit {
 
   ngOnInit() {
     this.df = this.df.filter(d => d.plate == this.plate_num);
-    console.log(this.colorScale.domain())
+    // console.log(this.colorScale.domain())
 
     //
     // this.fluorcts = [
