@@ -132,7 +132,7 @@ export class HeatmapKeyComponent implements OnInit {
 
     this.heatmap.append('text')
       // .attr('class', 'annotation')
-      .attr('x', this.x.bandwidth()/2)
+      .attr('x', this.x.bandwidth()/2 - 5)
       .attr('y', -this.margin.top / 2)
       .text('replicates');
 
