@@ -98,23 +98,23 @@ export class PlateHeatmapComponent implements OnInit {
       .duration(1500)
       .style('stroke-opacity', 1)
 
-      this.sel_chg
-       .transition('fade')
-            .delay(1000)
-            .duration(1500)
-            .style('fill', d => this.colorScale(d.sample_mean))
+    this.sel_chg
+      .transition('fade')
+      .delay(1000)
+      .duration(1500)
+      .style('fill', d => this.colorScale(d.sample_mean))
 
-      this.sel_avg
-        .transition('fade')
-        .delay(1000)
-        .duration(1500)
-        .style('opacity', 1)
+    this.sel_avg
+      .transition('fade')
+      .delay(1000)
+      .duration(1500)
+      .style('opacity', 1)
 
   }
 
   // Data-independent setup
   createChart() {
-  // console.log(this.df)
+    // console.log(this.df)
     this.getSVGDims();
 
     this.rect_width = this.width / this.df.length;
@@ -161,7 +161,7 @@ export class PlateHeatmapComponent implements OnInit {
       .data(this.df.filter((d, i) => !(i % 3)))
       .enter()
       .append('g')
-            .style('opacity', 0);
+      .style('opacity', 0);
 
     this.sel_avg.append('rect')
       .attr('class', 'avg-heatmap')
@@ -176,7 +176,7 @@ export class PlateHeatmapComponent implements OnInit {
     // TODO: fix the periodicity so not hard coded.
     this.sel_avg.append('text')
       .attr('class', 'annotation')
-      .attr('x', (d, i) => this.x(d.col) + this.x.bandwidth()*1.5)
+      .attr('x', (d, i) => this.x(d.col) + this.x.bandwidth() * 1.5)
       .attr('y', d => this.y(d.row) + this.y.bandwidth() / 3 * 2)
       .attr('dy', "-0.5em")
       .text(d => d.sample_id);
@@ -184,7 +184,7 @@ export class PlateHeatmapComponent implements OnInit {
 
     this.sel_avg.append('text')
       .attr('class', 'annotation fluor-value')
-      .attr('x', (d, i) => this.x(d.col) + this.x.bandwidth()*1.5)
+      .attr('x', (d, i) => this.x(d.col) + this.x.bandwidth() * 1.5)
       .attr('y', d => this.y(d.row) + this.y.bandwidth() / 3 * 2)
       .attr('dy', "0.8em")
       .text(d => d3.format(".1f")(d.sample_mean));
@@ -294,5 +294,5 @@ export class PlateHeatmapComponent implements OnInit {
     //     .text((d, i) => "A" + i);
     // }
 
-
   }
+}
