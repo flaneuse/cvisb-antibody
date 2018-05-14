@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs/';
+
+import { HttpClient } from '@angular/common/http';
+import { FileUploader } from 'ng2-file-upload';
 
 import * as d3 from 'd3';
 import * as d3Chromatic from 'd3-scale-chromatic';
@@ -38,15 +40,15 @@ export class GetDataService {
   }
 
   sayHi() {
-    this.httpClient.get('http://127.0.0.1:5000/').subscribe(data => {
-      // this.httpClient.get(environment.host_url).subscribe(data => {
+    // this.httpClient.get('http://127.0.0.1:5000/').subscribe(data => {
+      this.httpClient.get(environment.host_url).subscribe(data => {
       this.serverData = data as JSON;
       console.log(this.serverData);
     })
   }
 
   getAllEmployees() {
-    this.httpClient.get('http://127.0.0.1:5000/employees').subscribe(data => {
+    this.httpClient.get(environment.host_url + 'employees').subscribe(data => {
       this.employeeData = data as JSON;
       console.log(this.employeeData);
     })
@@ -104,6 +106,7 @@ export class GetDataService {
 
   // Modified from https://stackoverflow.com/questions/45441962/how-to-upload-a-csv-file-and-read-them-using-angular2
   read_json(event: any) {
+  console.log('reading')
     this.sayHi();
     this.getAllEmployees();
 

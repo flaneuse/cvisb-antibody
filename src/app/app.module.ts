@@ -25,6 +25,8 @@ import { OverviewComponent } from './overview/overview.component';
 import { SortedDotplotComponent } from './sorted-dotplot/sorted-dotplot.component';
 import { DotplotKeyComponent } from './dotplot-key/dotplot-key.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { AnalyzeFilesComponent } from './analyze-files/analyze-files.component';
+import { UploadFilesComponent } from './analyze-files/upload-files/upload-files.component';
 
 
 @NgModule({
@@ -42,7 +44,9 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     OverviewComponent,
     SortedDotplotComponent,
     DotplotKeyComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    AnalyzeFilesComponent,
+    UploadFilesComponent
   ],
   imports: [
     BrowserModule,

@@ -16,8 +16,9 @@ export class AppComponent {
 
 
   navLinks = [
-    // { 'path': 'overview', 'label': 'plate overview' },
-    { 'path': 'plates', 'label': 'plate view' }
-    // { 'path': 'sorted', 'label': 'experiment view' }
+    { 'path': 'upload', 'label': 'upload files' },
+    { 'path': 'overview', 'label': 'plate overview' },
+    { 'path': 'plates', 'label': 'plate view' },
+    { 'path': 'sorted', 'label': 'experiment view' }
   ];
 }
