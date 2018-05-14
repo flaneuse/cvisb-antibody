@@ -24,6 +24,7 @@ import { PlatesComponent } from './plates/plates.component';
 import { OverviewComponent } from './overview/overview.component';
 import { SortedDotplotComponent } from './sorted-dotplot/sorted-dotplot.component';
 import { DotplotKeyComponent } from './dotplot-key/dotplot-key.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import { DotplotKeyComponent } from './dotplot-key/dotplot-key.component';
     PlatesComponent,
     OverviewComponent,
     SortedDotplotComponent,
-    DotplotKeyComponent
+    DotplotKeyComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
