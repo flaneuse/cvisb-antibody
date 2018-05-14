@@ -4,7 +4,7 @@ import * as d3 from 'd3';
 import * as d3Chromatic from 'd3-scale-chromatic';
 
 // Data Service
-// import { GetDataService } from '../services/get-data.service';
+// import { GetDataService } from '../_services/get-data.service';
 
 @Component({
   selector: 'app-distrib-plot',

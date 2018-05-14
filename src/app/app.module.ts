@@ -8,7 +8,7 @@ import { MaterialModule } from './material.module';
 import { FlexLayoutModule } from "@angular/flex-layout";
 
 // services
-import { GetDataService } from './services/get-data.service';
+import { GetDataService } from './_services/get-data.service';
 
 // custom components
 import { AppComponent } from './app.component';

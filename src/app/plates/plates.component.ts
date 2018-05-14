@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { GetDataService } from '../services/get-data.service';
+import { GetDataService } from '../_services/get-data.service';
 import { Subscription } from 'rxjs';
 
 @Component({
