@@ -1,19 +1,24 @@
 import { Injectable } from '@angular/core';
-// import { Observable, of } from 'rxjs';
-
+import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs/';
 
 import * as d3 from 'd3';
 import * as d3Chromatic from 'd3-scale-chromatic';
+
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 
 
+
 // Required to return asynchronously
 // Async help: https://stackoverflow.com/questions/47062994/angular-2-4-filereader-service
 export class GetDataService {
+
+  serverData: JSON;
+  employeeData: JSON;
 
   private subject = new Subject<any>();
 
@@ -29,8 +34,24 @@ export class GetDataService {
   dataRetrived$ = this.dataSource.asObservable();
   colorScaleRetrieved$ = this.colorSource.asObservable();
 
-  constructor() {
+  constructor(private httpClient: HttpClient) {
   }
+
+  sayHi() {
+    this.httpClient.get('http://127.0.0.1:5000/').subscribe(data => {
+      // this.httpClient.get(environment.host_url).subscribe(data => {
+      this.serverData = data as JSON;
+      console.log(this.serverData);
+    })
+  }
+
+  getAllEmployees() {
+    this.httpClient.get('http://127.0.0.1:5000/employees').subscribe(data => {
+      this.employeeData = data as JSON;
+      console.log(this.employeeData);
+    })
+  }
+
 
   getUserObservable(): Observable<any> {
     return this.subject.asObservable();
@@ -59,7 +80,7 @@ export class GetDataService {
 
       // log-scale the colors, if specified.
       if (log) {
-      console.log(fluor_range)
+        console.log(fluor_range)
         fluor_range = fluor_range.map(d => Math.log(d) / Math.log(logbase))
         console.log(fluor_range)
       }
@@ -68,11 +89,11 @@ export class GetDataService {
       scale.domain(fluor_range);
 
       let colorFunc = function(value) {
-      // if log-transformed, transform the values before feeding into the color function
-      if (log) {
-        return scale( Math.log(value) / Math.log(logbase))
-      }
-      return scale(value)
+        // if log-transformed, transform the values before feeding into the color function
+        if (log) {
+          return scale(Math.log(value) / Math.log(logbase))
+        }
+        return scale(value)
       }
 
       this.colorScale = colorFunc;
@@ -83,6 +104,9 @@ export class GetDataService {
 
   // Modified from https://stackoverflow.com/questions/45441962/how-to-upload-a-csv-file-and-read-them-using-angular2
   read_json(event: any) {
+    this.sayHi();
+    this.getAllEmployees();
+
     let files: FileList = event.target.files;
 
     // console.log(files);
@@ -119,7 +143,7 @@ export class GetDataService {
         // observer.next(this.data);
         // console.log(this.dataSource)
         // console.log(this.dataRetrived$)
-        this.dataSource.next({'df': this.data, 'colors': this.colorScale});
+        this.dataSource.next({ 'df': this.data, 'colors': this.colorScale });
         // console.log(this.dataSource)
         // console.log(this.dataRetrived$)
         // this.colorSource.next(this.colorScale);
