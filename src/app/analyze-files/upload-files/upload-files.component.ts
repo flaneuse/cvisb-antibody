@@ -17,12 +17,12 @@ export class UploadFilesComponent implements OnInit {
 
   public uploader: FileUploader;
   // private progress: number = 0;
-  private expt_types = ['ADCD', 'ADCP', 'ADNP', 'NKD']
+  private expt_types = ['ADCD', 'ADCP', 'ADNP', 'NKD'];
   private file_types = [
-    { id: 'plates', label: 'plate/sample layout' },
-    { id: 'data', label: 'fluorescence data' },
-    { id: 'raw', label: '.acs file' },
-  ]
+    { id: 'plates', label: 'plate/sample layout', search_string: 'layout' },
+    { id: 'data', label: 'fluorescence data', search_string: 'flowjo' },
+    { id: 'raw', label: '.acs file', search_string: '\.acs' },
+  ];
 
   // = new FileUploader({ url: 'http://127.0.0.1:5000/upload' });
   URL: string = 'http://127.0.0.1:5000/upload';
@@ -59,25 +59,20 @@ export class UploadFilesComponent implements OnInit {
     // console.log(this.selected_expt)
     //   item.formData = [{ firstParam: 'Value', secondParam: 'value' }];
     // };
+    //
+    this.uploader.onAfterAddingFile = (fileItem: any) => {
+      let filename = fileItem.file.name;
+      // Update the
+      fileItem.formData['expt'] = this.findExptType(filename);
+      fileItem.formData['file'] = this.findFileType(filename);
+    }
 
-// Solved via https://stackoverflow.com/questions/38502687/how-to-submit-post-data-with-ng2-file-upload-in-angular-2
+    // Solved via https://stackoverflow.com/questions/38502687/how-to-submit-post-data-with-ng2-file-upload-in-angular-2
     this.uploader.onBuildItemForm = (fileItem: any, form: any) => {
-      console.log('uploader')
-      console.log(fileItem.formData)
-      // console.log(form)
-      // form = fileItem.formData;
-      // form.append('expt', "fileItem.formData['expt']"); //note comma separating key and value
-      //
-      // form = fileItem.formData
-      // return(form)
-      //
+      // Convert Object containing the file/experiment params set by the user to pass to Python backend
       for (let key of Object.keys(fileItem.formData)) {
-   console.log(key);
-   form.append(key, fileItem.formData[key])
-}
-      // form.append(fileItem.formData)
-      console.log(form)
-      // form.append('someField2', 'this.someValue2');
+        form.append(key, fileItem.formData[key])
+      }
     };
 
     this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
@@ -91,6 +86,24 @@ export class UploadFilesComponent implements OnInit {
     // console.log(this.uploader)
   }
 
+  // Scans filename to set the experiment type
+  findExptType(filename) {
+    for (let expt of this.expt_types) {
+      if (filename.toUpperCase().indexOf(expt.toUpperCase()) > -1) {
+        return expt;
+      }
+    }
+  }
+
+  // Scans filename to set the experiment type
+  findFileType(filename) {
+    for (let file_type of this.file_types) {
+      let search_string = file_type.search_string.toUpperCase();
+      if (filename.toUpperCase().indexOf(search_string) > -1) {
+        return file_type.id;
+      }
+    }
+  }
 
 
 }
