@@ -6,6 +6,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './/app-routing.module';
 import { MaterialModule } from './material.module';
 import { FlexLayoutModule } from "@angular/flex-layout";
+import { FileUploadModule } from 'ng2-file-upload/ng2-file-upload';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 // services
 import { GetDataService } from './_services/get-data.service';
@@ -53,7 +55,9 @@ import { UploadFilesComponent } from './analyze-files/upload-files/upload-files.
     HttpClientModule,
     MaterialModule,
     FlexLayoutModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FileUploadModule,
+    NgbModule.forRoot()
   ],
   providers: [
     GetDataService

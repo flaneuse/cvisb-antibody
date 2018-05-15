@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import {
-  MatTabsModule, MatButtonModule
+  MatTabsModule, MatButtonModule, MatSelectModule, MatStepperModule
   // MatAutocompleteModule, MatFormFieldModule, MatInputModule,
   // MatChipsModule, MatTabsModule, MatTableModule, MatSelectModule,
   // MatCheckboxModule, MatIconModule, MatSortModule, MatButtonModule,
@@ -15,7 +15,7 @@ import {
 @NgModule({
   imports: [
     BrowserAnimationsModule,
-    MatTabsModule, MatButtonModule
+    MatTabsModule, MatButtonModule, MatSelectModule, MatStepperModule
     // MatAutocompleteModule, MatFormFieldModule, MatInputModule,
     // MatChipsModule, MatTabsModule, MatTableModule, MatSelectModule,
     // MatCheckboxModule, MatIconModule, MatSortModule, MatButtonModule,
@@ -25,7 +25,7 @@ import {
   ],
   exports: [
     BrowserAnimationsModule,
-    MatTabsModule, MatButtonModule
+    MatTabsModule, MatButtonModule, MatSelectModule, MatStepperModule
     // MatAutocompleteModule, MatFormFieldModule, MatInputModule,
     // MatChipsModule, MatTabsModule, MatTableModule, MatSelectModule,
     // MatCheckboxModule, MatIconModule, MatSortModule, MatButtonModule,
