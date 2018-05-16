@@ -8,6 +8,7 @@ import { MaterialModule } from './material.module';
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { FileUploadModule } from 'ng2-file-upload/ng2-file-upload';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 
 // services
 import { GetDataService } from './_services/get-data.service';
@@ -57,7 +58,8 @@ import { UploadFilesComponent } from './analyze-files/upload-files/upload-files.
     FlexLayoutModule,
     AppRoutingModule,
     FileUploadModule,
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
+    ReactiveFormsModule
   ],
   providers: [
     GetDataService
