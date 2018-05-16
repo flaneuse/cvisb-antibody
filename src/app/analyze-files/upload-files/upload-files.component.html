@@ -1,5 +1,6 @@
 <div class="container">
 
+  <div class = 'upload-btn'>
   <h3>Upload files</h3>
 
   <!-- Dummy for styling -->
@@ -7,6 +8,7 @@
   <input type="file" class="d-none" #fileInput ng2FileSelect [uploader]="uploader" multiple /><br/>
 
   <div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" (fileOver)="fileOverBase($event)" [uploader]="uploader" class="well my-drop-zone">
+  </div>
   </div>
 
 
@@ -24,6 +26,7 @@
 </div>
 <!-- <h4>Missing files: {{ uploader?.queue?.length }}</h4> -->
 
+<div class="queue">
   <h3>Upload queue</h3>
   <!-- <p>Queue length: {{ uploader?.queue?.length }}</p> -->
 
@@ -31,6 +34,7 @@
     <thead>
       <tr>
         <th width="50%">Name</th>
+        <th>Experiment ID</th>
         <th>Experiment</th>
         <th>File Type</th>
         <th>Progress</th>
@@ -42,6 +46,13 @@
     <tbody>
       <tr *ngFor="let item of uploader.queue">
         <td><strong>{{ item?.file?.name }}</strong></td>
+
+        <td>
+          <!-- {{item.formData['expt_id']}} -->
+          <mat-select [(value)]="item.formData['expt_id']">
+            <mat-option *ngFor="let opt of expt_ids" value="{{opt}}">{{opt}}</mat-option>
+          </mat-select>
+        </td>
 
         <td>
           <mat-select [(value)]="item.formData['expt']">
@@ -85,8 +96,9 @@
     </tbody>
 
   </table>
+</div>
 
-  <div>
+  <div class="queue-progress">
     <div>
       Queue progress:
       <div class="progress" style="">

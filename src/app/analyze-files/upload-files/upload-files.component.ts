@@ -23,7 +23,8 @@ export class UploadFilesComponent implements OnInit {
     { id: 'data', label: 'fluorescence data', search_string: 'flowjo' },
     { id: 'raw', label: '.acs file', search_string: '\.acs' },
   ];
-  private expt_ids: string[] = ['BMGEXP577', 'BMGEXP578'];
+  private expt_ids: string[] = [];
+  exptid_pattern: string = "[A-Z]{3}EXP[0-9]+"; // Pattern to search for the experiment ID.
 
   // = new FileUploader({ url: 'http://127.0.0.1:5000/upload' });
   URL: string = 'http://127.0.0.1:5000/upload';
@@ -62,9 +63,15 @@ export class UploadFilesComponent implements OnInit {
     //
     this.uploader.onAfterAddingFile = (fileItem: any) => {
       let filename = fileItem.file.name;
-      // Update the
+      // Update the params to pass to python.
+
+      let id = this.findExptID(filename);
+      fileItem.formData['expt_id'] = id;
+      id != null && this.expt_ids.indexOf(id) === -1 && this.expt_ids.push(id); // add to the list of expts if not already in the list
+
       fileItem.formData['expt'] = this.findExptType(filename);
       fileItem.formData['file'] = this.findFileType(filename);
+
     }
 
     // Params passing to Flask solved via https://stackoverflow.com/questions/38502687/how-to-submit-post-data-with-ng2-file-upload-in-angular-2
@@ -103,6 +110,14 @@ export class UploadFilesComponent implements OnInit {
         return file_type.id;
       }
     }
+  }
+
+  findExptID(filename) {
+    let id = filename.match(this.exptid_pattern);
+
+      if(id !== null) {
+        return id[0];
+      }
   }
 
 
