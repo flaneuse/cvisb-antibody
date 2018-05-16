@@ -23,6 +23,7 @@ export class UploadFilesComponent implements OnInit {
     { id: 'data', label: 'fluorescence data', search_string: 'flowjo' },
     { id: 'raw', label: '.acs file', search_string: '\.acs' },
   ];
+  private expt_ids: string[] = ['BMGEXP577', 'BMGEXP578'];
 
   // = new FileUploader({ url: 'http://127.0.0.1:5000/upload' });
   URL: string = 'http://127.0.0.1:5000/upload';
@@ -30,7 +31,6 @@ export class UploadFilesComponent implements OnInit {
   public hasAnotherDropZoneOver: boolean = false;
 
   public fileOverBase(e: any): void {
-    console.log(e)
     this.hasBaseDropZoneOver = e;
   }
 
@@ -67,7 +67,7 @@ export class UploadFilesComponent implements OnInit {
       fileItem.formData['file'] = this.findFileType(filename);
     }
 
-    // Solved via https://stackoverflow.com/questions/38502687/how-to-submit-post-data-with-ng2-file-upload-in-angular-2
+    // Params passing to Flask solved via https://stackoverflow.com/questions/38502687/how-to-submit-post-data-with-ng2-file-upload-in-angular-2
     this.uploader.onBuildItemForm = (fileItem: any, form: any) => {
       // Convert Object containing the file/experiment params set by the user to pass to Python backend
       for (let key of Object.keys(fileItem.formData)) {
@@ -81,7 +81,7 @@ export class UploadFilesComponent implements OnInit {
       // console.log(item)
       // console.log(status)
       // console.log(headers)
-      // console.log(response)
+      console.log(response)
     };
     // console.log(this.uploader)
   }

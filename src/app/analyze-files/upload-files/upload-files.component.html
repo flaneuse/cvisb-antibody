@@ -2,19 +2,30 @@
 
   <h3>Upload files</h3>
 
-    <input type="file" ng2FileSelect [uploader]="uploader" multiple /><br/>
+  <!-- Dummy for styling -->
+  <button type="button" mat-raised-button color="primary" (click)="fileInput.click()">Upload files</button>
+  <input type="file" class="d-none" #fileInput ng2FileSelect [uploader]="uploader" multiple /><br/>
 
   <div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" (fileOver)="fileOverBase($event)" [uploader]="uploader" class="well my-drop-zone">
-    Drag files
   </div>
 
 
 <!-- TODO: check for right number of files -->
+<h4>Missing files</h4>
+<div class = "file-checklist" *ngFor="let expt of expt_ids">
+  <ul>
+    <h5>{{expt}}</h5>
+    <li *ngFor = "let file of file_types">
+        <mat-icon class="circle">done</mat-icon>
+        <mat-icon class="error">error</mat-icon>
+      {{file.label}}
+    </li>
+  </ul>
+</div>
+<!-- <h4>Missing files: {{ uploader?.queue?.length }}</h4> -->
 
   <h3>Upload queue</h3>
   <!-- <p>Queue length: {{ uploader?.queue?.length }}</p> -->
-
-  <p>Missing files: {{ uploader?.queue?.length }}</p>
 
   <table class="table">
     <thead>

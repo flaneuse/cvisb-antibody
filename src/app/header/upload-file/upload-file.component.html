@@ -1,7 +1,7 @@
 <!-- Dummy for styling -->
 <button type="button" mat-raised-button color="primary" (click)="fileInput.click()">Upload data file</button>
 <!-- Actual workhorse to upload the data on the client side -->
-<input  hidden type="file" #fileInput (change)="fileChange($event)" placeholder="Upload file" accept=".csv,.xlsx,.xls,.json">
+<input hidden class="d-none" type="file" #fileInput (change)="fileChange($event)" placeholder="Upload file" accept=".csv,.xlsx,.xls,.json">
 
 
 <!-- <div class="form-group">
