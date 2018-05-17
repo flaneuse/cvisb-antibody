@@ -64,7 +64,10 @@ export class DotplotKeyComponent implements OnInit {
   createChart() {
     this.getSVGDims();
 
-    this.x = d3.scaleBand().range([0, this.width]).domain(this.nested_df.map(d => d.key));
+    this.x = d3.scaleBand()
+      .range([0, this.width])
+      .domain(this.nested_df
+      .map(d => d.key));
 
     let indiv_min = this.nested_df.map(d => d3.min(d.value.indivs))
     let indiv_max = this.nested_df.map(d => d3.max(d.value.indivs))
