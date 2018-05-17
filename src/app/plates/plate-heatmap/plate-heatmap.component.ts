@@ -2,6 +2,9 @@ import { Component, OnInit, OnChanges, ViewChild, ViewEncapsulation, ElementRef,
 
 import * as d3 from 'd3';
 import * as d3Chromatic from 'd3-scale-chromatic';
+import * as chroma from 'chroma-js';
+
+import { FluorData } from '../../_classes';
 
 @Component({
   selector: 'app-plate-heatmap',
@@ -13,8 +16,11 @@ import * as d3Chromatic from 'd3-scale-chromatic';
 export class PlateHeatmapComponent implements OnInit {
   @ViewChild('chart') private chartContainer: ElementRef;
   @Input() private plate_num: number;
-  @Input() private df: Array<Object> = [];
+  @Input() private df: Array<FluorData> = [];
   @Input() private colorScale: any;
+
+  // switch for linear / log scale
+  private isLinear: boolean = false;
 
 
   // df: Array<Object> = [
@@ -119,7 +125,10 @@ export class PlateHeatmapComponent implements OnInit {
 
     this.rect_width = this.width / this.df.length;
 
-    this.x = d3.scaleBand().range([0, this.width]).domain(this.df.map(d => d.col));
+    this.x = d3.scaleBand()
+      .range([0, this.width])
+      .domain(this.df.map(d => d.col));
+
     this.xAxis = d3.axisTop(this.x);
     // console.log(this.x.domain())
 
@@ -174,8 +183,10 @@ export class PlateHeatmapComponent implements OnInit {
 
     // merged average
     // TODO: fix the periodicity so not hard coded.
+    // Adjust color based on W3
     this.sel_avg.append('text')
       .attr('class', 'annotation')
+      .classed('light-text', d => chroma.contrast(this.colorScale(d.sample_mean), 'white') > 4.5)
       .attr('x', (d, i) => this.x(d.col) + this.x.bandwidth() * 1.5)
       .attr('y', d => this.y(d.row) + this.y.bandwidth() / 3 * 2)
       .attr('dy', "-0.5em")
@@ -184,6 +195,7 @@ export class PlateHeatmapComponent implements OnInit {
 
     this.sel_avg.append('text')
       .attr('class', 'annotation fluor-value')
+      .classed('light-text', d => chroma.contrast(this.colorScale(d.sample_mean), 'white') > 4.5)
       .attr('x', (d, i) => this.x(d.col) + this.x.bandwidth() * 1.5)
       .attr('y', d => this.y(d.row) + this.y.bandwidth() / 3 * 2)
       .attr('dy', "0.8em")
