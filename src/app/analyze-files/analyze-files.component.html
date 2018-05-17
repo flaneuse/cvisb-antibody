@@ -5,7 +5,46 @@
     <mat-icon>done</mat-icon>
   </ng-template>
 
-  <mat-step [stepControl]="firstFormGroup">
+
+  <mat-step [completed] = "isUploaded">
+    <ng-template matStepLabel>Load your data</ng-template>
+
+    <input type="file" ng2FileSelect [uploader]="uploader" multiple /><br/>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th width="50%">Name</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let item of uploader.queue">
+          <td><strong>{{ item?.file?.name }}</strong></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div>
+      <button mat-button matStepperNext>Next</button>
+    </div>
+  </mat-step>
+
+  <mat-step>
+    <ng-template matStepLabel>Upload files</ng-template>
+    Content 2
+
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button (click)="stepper.reset()">Reset</button>
+    </div>
+  </mat-step>
+
+
+
+
+
+  <!-- <mat-step [stepControl]="firstFormGroup">
     <form [formGroup]="firstFormGroup">
 
       <ng-template matStepLabel>Upload files</ng-template>
@@ -56,7 +95,8 @@
       <button mat-button matStepperPrevious>Back</button>
       <button mat-button (click)="stepper.reset()">Reset</button>
     </div>
-  </mat-step>
+  </mat-step> -->
+
 </mat-horizontal-stepper>
 
 

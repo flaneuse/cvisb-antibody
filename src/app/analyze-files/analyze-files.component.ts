@@ -30,6 +30,8 @@ export class AnalyzeFilesComponent implements OnInit {
     public hasBaseDropZoneOver: boolean = false;
     public hasAnotherDropZoneOver: boolean = false;
 
+    private isUploaded = false;
+
     public fileOverBase(e: any): void {
       console.log(e)
       this.hasBaseDropZoneOver = e;
@@ -67,6 +69,8 @@ export class AnalyzeFilesComponent implements OnInit {
     // };
     //
     this.uploader.onAfterAddingFile = (fileItem: any) => {
+    this.isUploaded = true;
+    
       let filename = fileItem.file.name;
       // Update the
       fileItem.formData['expt'] = this.findExptType(filename);
