@@ -1,108 +1,123 @@
 <div class="container">
 
-  <div class = 'upload-btn'>
-  <h3>Upload files</h3>
+  <div class='upload-btn'>
+    <h3>Upload files</h3>
 
-  <!-- Dummy for styling -->
-  <button type="button" mat-raised-button color="primary" (click)="fileInput.click()">Upload files</button>
-  <input type="file" class="d-none" #fileInput ng2FileSelect [uploader]="uploader" multiple /><br/>
+    <!-- Dummy for styling -->
+    <button type="button" mat-raised-button color="primary" (click)="fileInput.click()">Upload files</button>
+    <input type="file" class="d-none" #fileInput ng2FileSelect [uploader]="uploader" multiple /><br/>
 
-  <div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" (fileOver)="fileOverBase($event)" [uploader]="uploader" class="well my-drop-zone">
+    <div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" (fileOver)="fileOverBase($event)" [uploader]="uploader" class="well my-drop-zone">
+    </div>
   </div>
-  </div>
 
 
-<!-- TODO: check for right number of files -->
-<ng-container *ngIf = "this.missing_files">
-<h4>Missing files</h4>
-<!-- {{expt_ids}} -->
+  <!-- TODO: check for right number of files -->
+  <ng-container *ngIf="this.missing_files">
+    <h4>Missing files</h4>
+    <!-- {{expt_ids}} -->
 
-<div class = "file-checklist" *ngFor="let expt of expt_ids">
-  <ul>
-    <h5>{{expt.expt_id}}</h5>
-    <li *ngFor = "let file of expt.filetype">
-        <!-- <mat-icon class="circle">done</mat-icon> -->
-        <mat-icon [ngClass]="file.uploaded ? 'uploaded': 'error'">
-          {{ file.uploaded ? 'done' : 'error' }}
-        </mat-icon>
-      {{file.label}}
-    </li>
-  </ul>
-</div>
-</ng-container>
-<!-- <h4>Missing files: {{ uploader?.queue?.length }}</h4> -->
+    <div class="file-checklist" *ngFor="let expt of expt_ids">
+      <ul>
+        <h5>{{expt.expt_id}}</h5>
+        <li *ngFor="let file of expt.filetype">
+          <!-- <mat-icon class="circle">done</mat-icon> -->
+          <mat-icon [ngClass]="file.uploaded ? 'uploaded': 'error'">
+            {{ file.uploaded ? 'done' : 'error' }}
+          </mat-icon>
+          {{file.label}}
+        </li>
+      </ul>
+    </div>
+  </ng-container>
+  <!-- <h4>Missing files: {{ uploader?.queue?.length }}</h4> -->
 
-<div class="queue">
-  <h3>Upload queue</h3>
-  <!-- <p>Queue length: {{ uploader?.queue?.length }}</p> -->
+  <div class="queue">
+    <h3>Upload queue</h3>
+    <!-- <p>Queue length: {{ uploader?.queue?.length }}</p> -->
 
-  <table class="table">
-    <thead>
-      <tr>
-        <th width="50%">Name</th>
-        <th>Experiment ID</th>
-        <th>Experiment</th>
-        <th>File Type</th>
-        <th>Progress</th>
-        <th>Status</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
+    <table class="table">
+      <thead>
+        <tr>
+          <th width="50%">Name</th>
+          <th>Experiment ID</th>
+          <th>Experiment</th>
+          <th>File Type</th>
+          <th>Progress</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
 
-    <tbody>
-      <tr *ngFor="let item of uploader.queue">
-        <td><strong>{{ item?.file?.name }}</strong></td>
+      <tbody>
+        <tr *ngFor="let item of uploader.queue">
+          <td><strong>{{ item?.file?.name }}</strong></td>
 
-        <td>
-          {{item.formData['expt_id']}}
+          <!-- <td>
+            {{item.formData['expt_id']}} 
+
+
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="State" aria-label="State" [(value)]="item.formData['expt_id']"
+              [matAutocomplete]="auto" [formControl]="stateCtrl">
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let opt of expt_ids" [value]="opt.expt_id">
+                  {{opt.expt_id}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+
+          </td> -->
+
+          <td>
           <mat-select [(value)]="item.formData['expt_id']">
-            <mat-option *ngFor="let opt of expt_id">{{opt.expt_id}}</mat-option>
+            <mat-option *ngFor="let opt of expt_ids" [value]="opt.expt_id">{{opt.expt_id}}</mat-option>
           </mat-select>
         </td>
 
-        <td>
-          <mat-select [(value)]="item.formData['expt']">
-            <mat-option *ngFor="let opt of expt_types" value="{{opt}}">{{opt}}</mat-option>
-          </mat-select>
-        </td>
+          <td>
+            <mat-select [(value)]="item.formData['expt']">
+              <mat-option *ngFor="let opt of expt_types" value="{{opt}}">{{opt}}</mat-option>
+            </mat-select>
+          </td>
 
-        <td>
-          <mat-select [(value)]="item.formData['file']">
-            <mat-option *ngFor="let opt of file_types" [value]="opt.id">{{opt.label}}</mat-option>
-          </mat-select>
-        </td>
+          <td>
+            <mat-select [(value)]="item.formData['file']">
+              <mat-option *ngFor="let opt of file_types" [value]="opt.id">{{opt.label}}</mat-option>
+            </mat-select>
+          </td>
 
-        <!-- <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td> -->
+          <!-- <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td> -->
 
-        <td>
-          <div class="progress" style="margin-bottom: 0;">
-            <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
-          </div>
-        </td>
+          <td>
+            <div class="progress" style="margin-bottom: 0;">
+              <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
+            </div>
+          </td>
 
-        <td class="text-center">
-          <span *ngIf="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
-          <span *ngIf="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
-          <span *ngIf="item.isError" (click)="removeFile($event, item)"><i class="glyphicon glyphicon-remove"></i></span>
-        </td>
+          <td class="text-center">
+            <span *ngIf="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+            <span *ngIf="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+            <span *ngIf="item.isError" (click)="removeFile($event, item)"><i class="glyphicon glyphicon-remove"></i></span>
+          </td>
 
-        <td nowrap>
-          <!-- <button type="button" class="btn btn-success btn-xs" (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
+          <td nowrap>
+            <!-- <button type="button" class="btn btn-success btn-xs" (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
                   <span class="glyphicon glyphicon-upload"></span> Upload
               </button> -->
-          <button type="button" class="btn btn-warning btn-xs" (click)="item.cancel()" [disabled]="!item.isUploading">
+            <button type="button" class="btn btn-warning btn-xs" (click)="item.cancel()" [disabled]="!item.isUploading">
                   <span class="glyphicon glyphicon-ban-circle"></span> Cancel
               </button>
-          <button type="button" class="btn btn-danger btn-xs" (click)="removeFile($event, item)">
+            <button type="button" class="btn btn-danger btn-xs" (click)="removeFile($event, item)">
                   <span class="glyphicon glyphicon-trash"></span> Remove
               </button>
-        </td>
+          </td>
 
-      </tr>
-    </tbody>
+        </tr>
+      </tbody>
 
-  </table>
-</div>
+    </table>
+  </div>
 
   <div class="queue-progress">
     <div>

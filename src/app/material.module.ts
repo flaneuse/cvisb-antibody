@@ -4,7 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import {
   MatTabsModule, MatButtonModule, MatSelectModule, MatStepperModule,
-  MatFormFieldModule, MatInputModule, MatIconModule
+  MatFormFieldModule, MatInputModule, MatIconModule, MatAutocompleteModule
   // MatAutocompleteModule, MatFormFieldModule, MatInputModule,
   // MatChipsModule, MatTabsModule, MatTableModule, MatSelectModule,
   // MatCheckboxModule, MatIconModule, MatSortModule, MatButtonModule,
@@ -17,7 +17,7 @@ import {
   imports: [
     BrowserAnimationsModule,
     MatTabsModule, MatButtonModule, MatSelectModule, MatStepperModule,
-    MatFormFieldModule, MatInputModule, MatIconModule
+    MatFormFieldModule, MatInputModule, MatIconModule, MatAutocompleteModule
     // MatAutocompleteModule, MatFormFieldModule, MatInputModule,
     // MatChipsModule, MatTabsModule, MatTableModule, MatSelectModule,
     // MatCheckboxModule, MatIconModule, MatSortModule, MatButtonModule,
@@ -28,7 +28,7 @@ import {
   exports: [
     BrowserAnimationsModule,
     MatTabsModule, MatButtonModule, MatSelectModule, MatStepperModule,
-    MatFormFieldModule, MatInputModule, MatIconModule
+    MatFormFieldModule, MatInputModule, MatIconModule, MatAutocompleteModule
     // MatAutocompleteModule, MatFormFieldModule, MatInputModule,
     // MatChipsModule, MatTabsModule, MatTableModule, MatSelectModule,
     // MatCheckboxModule, MatIconModule, MatSortModule, MatButtonModule,
