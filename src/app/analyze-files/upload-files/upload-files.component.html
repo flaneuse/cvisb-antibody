@@ -83,9 +83,12 @@
           </td>
 
           <td>
-            <mat-select [(value)]="item.formData['file']">
+            <mat-form-field>
+            <mat-select [(ngModel)]="item.formData['file']" (ngModelChange) ="updateFileType($event, item)">
               <mat-option *ngFor="let opt of file_types" [value]="opt.id">{{opt.label}}</mat-option>
             </mat-select>
+          </mat-form-field>
+
           </td>
 
           <!-- <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td> -->

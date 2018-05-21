@@ -61,6 +61,7 @@ import { LineTraceComponent } from './sorted-dotplot/line-trace/line-trace.compo
     AppRoutingModule,
     FileUploadModule,
     NgbModule.forRoot(),
+    FormsModule,
     ReactiveFormsModule
   ],
   providers: [

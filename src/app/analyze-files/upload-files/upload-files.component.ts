@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges } from '@angular/core';
 
 import { FileUploader } from 'ng2-file-upload/ng2-file-upload';
 
@@ -77,13 +77,19 @@ export class UploadFilesComponent implements OnInit {
     // this.checkMissing();
   }
 
+  updateFileType(new_filetype, item) {
+    console.log(item)
+    console.log(this.uploader.queue[0].formData.expt_id)
+    this.trackUploads(null, item.formData['expt_id'], item.formData['file'])
+  }
+
+  ngOnChanges() {
+    console.log('changes')
+  }
+
 
 
   ngOnInit() {
-    console.log(this.expt_ids)
-    console.log()
-    // TODO: formData: data to pass with item.
-
     this.uploader = new FileUploader({
       url: this.URL, authToken: "testToken",
       autoUpload: false
@@ -145,11 +151,17 @@ export class UploadFilesComponent implements OnInit {
       // console.log(headers)
       console.log(response)
     };
+
+    // TODO: build in checks if missing files.
+    this.uploader.onCompleteAll = () => {
+      console.log("DONE!");
+      // Call function to staple everything together
+    }
     // console.log(this.uploader)
   }
 
   checkMissing() {
-    let uploads = this.expt_ids.map((d:any) => d.filetype.map(g => g.uploaded))
+    let uploads = this.expt_ids.map((d: any) => d.filetype.map(g => g.uploaded))
 
     let isMissing = function(val) {
       return !val;
@@ -161,11 +173,15 @@ export class UploadFilesComponent implements OnInit {
     this.missing_files = uploads.some(isMissing);
   }
 
-  trackUploads(filename) {
-    let exptid = this.findExptID(filename);
-    let filetype = this.findFileType(filename);
+  trackUploads(filename, exptid = null, filetype = null) {
+    if (exptid === null) {
+      exptid = this.findExptID(filename);
+    }
 
-    let idx = this.expt_ids.findIndex((d:any) => d.expt_id === exptid);
+    if (filetype === null) {
+      filetype = this.findFileType(filename);
+    }
+    let idx = this.expt_ids.findIndex((d: any) => d.expt_id === exptid);
 
     // if id doesn't exist in the data frame at all, create as a dictionary
     idx === -1 ? this.initializeUploaded(exptid, filetype) : this.changeUploaded(idx, filetype);
@@ -183,7 +199,7 @@ export class UploadFilesComponent implements OnInit {
     // let arr = [...this.file_types]; // doesn't work.
     this.expt_ids.push({ 'expt_id': exptid, 'filetype': arr })
 
-    let idx = this.expt_ids.findIndex((d:any) => d.expt_id === exptid);
+    let idx = this.expt_ids.findIndex((d: any) => d.expt_id === exptid);
 
     this.changeUploaded(idx, filetype);
 
