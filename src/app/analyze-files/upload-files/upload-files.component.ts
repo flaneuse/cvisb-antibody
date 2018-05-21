@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 import { FileUploader } from 'ng2-file-upload/ng2-file-upload';
 
+import { FileType } from '../../_classes/file';
+
 // const URL = 'https://evening-anchorage-3159.herokuapp.com/api/';
 
 @Component({
@@ -18,7 +20,7 @@ export class UploadFilesComponent implements OnInit {
   public uploader: FileUploader;
   // private progress: number = 0;
   private expt_types = ['ADCD', 'ADCP', 'ADNP', 'NKD'];
-  private file_types = [
+  private file_types: FileType[] = [
     { id: 'plates', label: 'plate/sample layout', uploaded: false, search_string: 'layout' },
     { id: 'data', label: 'fluorescence data', uploaded: false, search_string: 'flowjo' },
     { id: 'raw', label: '.acs file', uploaded: false, search_string: '\.acs' },
@@ -47,7 +49,7 @@ export class UploadFilesComponent implements OnInit {
   removeFile(event, item) {
     item.remove();
 
-    if(this.uploader.queue.length == 0) {
+    if (this.uploader.queue.length == 0) {
       this.expt_ids = [];
       this.missing_files = false;
     } else {
@@ -74,6 +76,7 @@ export class UploadFilesComponent implements OnInit {
     // // Update whether files are missing
     // this.checkMissing();
   }
+
 
 
   ngOnInit() {
@@ -146,7 +149,7 @@ export class UploadFilesComponent implements OnInit {
   }
 
   checkMissing() {
-    let uploads = this.expt_ids.map(d => d.filetype.map(g => g.uploaded))
+    let uploads = this.expt_ids.map((d:any) => d.filetype.map(g => g.uploaded))
 
     let isMissing = function(val) {
       return !val;
@@ -162,7 +165,7 @@ export class UploadFilesComponent implements OnInit {
     let exptid = this.findExptID(filename);
     let filetype = this.findFileType(filename);
 
-    let idx = this.expt_ids.findIndex(d => d.expt_id === exptid);
+    let idx = this.expt_ids.findIndex((d:any) => d.expt_id === exptid);
 
     // if id doesn't exist in the data frame at all, create as a dictionary
     idx === -1 ? this.initializeUploaded(exptid, filetype) : this.changeUploaded(idx, filetype);
@@ -180,16 +183,19 @@ export class UploadFilesComponent implements OnInit {
     // let arr = [...this.file_types]; // doesn't work.
     this.expt_ids.push({ 'expt_id': exptid, 'filetype': arr })
 
-    let idx = this.expt_ids.findIndex(d => d.expt_id === exptid);
+    let idx = this.expt_ids.findIndex((d:any) => d.expt_id === exptid);
 
     this.changeUploaded(idx, filetype);
 
   }
 
   changeUploaded(idx, filetype) {
-    let idx_upload = this.expt_ids[idx]['filetype'].findIndex(d => d.id == filetype);
+    if (filetype) {
+      // Changes the master lookup table to toggle its presence from 'off' to 'on'
+      let idx_upload = this.expt_ids[idx]['filetype'].findIndex(d => d.id == filetype);
 
-    this.expt_ids[idx]['filetype'][idx_upload]['uploaded'] = !this.expt_ids[idx]['filetype'][idx_upload]['uploaded'];
+      this.expt_ids[idx]['filetype'][idx_upload]['uploaded'] = !this.expt_ids[idx]['filetype'][idx_upload]['uploaded'];
+    }
   }
 
   resetUploaded() {

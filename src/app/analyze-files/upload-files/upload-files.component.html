@@ -1,20 +1,8 @@
 <div class="container">
 
-  <div class='upload-btn'>
-    <h3>Upload files</h3>
-
-    <!-- Dummy for styling -->
-    <button type="button" mat-raised-button color="primary" (click)="fileInput.click()">Upload files</button>
-    <input type="file" class="d-none" #fileInput ng2FileSelect [uploader]="uploader" multiple /><br/>
-
-    <div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" (fileOver)="fileOverBase($event)" [uploader]="uploader" class="well my-drop-zone">
-    </div>
-  </div>
-
-
-  <!-- TODO: check for right number of files -->
+  <!-- TODO: update if change table -->
   <ng-container *ngIf="this.missing_files">
-    <h4>Missing files</h4>
+    <h3>Missing files</h3>
     <!-- {{expt_ids}} -->
 
     <div class="file-checklist" *ngFor="let expt of expt_ids">
@@ -32,8 +20,21 @@
   </ng-container>
   <!-- <h4>Missing files: {{ uploader?.queue?.length }}</h4> -->
 
+  <div class='upload-btn'>
+
+    <!-- Dummy for styling -->
+    <button type="button" mat-raised-button color="primary" (click)="fileInput.click()">Upload files</button>
+    <input type="file" class="d-none" #fileInput ng2FileSelect [uploader]="uploader" multiple /><br/>
+
+    <div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" (fileOver)="fileOverBase($event)" [uploader]="uploader" class="well my-drop-zone">
+    </div>
+  </div>
+
+
+
+
   <div class="queue">
-    <h3>Upload queue</h3>
+    <h4>Upload queue</h4>
     <!-- <p>Queue length: {{ uploader?.queue?.length }}</p> -->
 
     <table class="table">
@@ -54,7 +55,7 @@
           <td><strong>{{ item?.file?.name }}</strong></td>
 
           <!-- <td>
-            {{item.formData['expt_id']}} 
+            {{item.formData['expt_id']}}
 
 
             <mat-form-field class="example-full-width">
