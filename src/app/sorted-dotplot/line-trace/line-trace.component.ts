@@ -23,7 +23,7 @@ export class LineTraceComponent implements OnInit {
     'values': [
       { 'dilution_factor': 150, 'fluor_score': 133.508235 },
       { 'dilution_factor': 750, 'fluor_score': 121.869465 },
-      { 'dilution_factor': 3750,'fluor_score': 35.419185 }],
+      { 'dilution_factor': 3750, 'fluor_score': 35.419185 }],
     'sample_mean': 312549
   };
 
@@ -51,6 +51,7 @@ export class LineTraceComponent implements OnInit {
   ngOnInit() {
     // this.df.dilution = this.df.dilution_factor.map(d => 1 / d);
     console.log(this.df)
+
 
     this.createChart();
     this.updateChart();
@@ -89,11 +90,12 @@ export class LineTraceComponent implements OnInit {
   updateChart() {
     // Update the axis limits
     let xVals = (this.df.values.map(d => d.dilution_factor));
-    let xRange = [d3.min(xVals) - 300, d3.max(xVals) + 320];
+    let xSpan = d3.max(xVals) - d3.min(xVals);
+    let xRange = [d3.min(xVals) - xSpan/10, d3.max(xVals) + xSpan/10];
     this.x.domain(xRange);
     this.xAxis = d3.axisBottom(this.x)
-    .tickValues(xVals)
-    .tickFormat(d => "1:" + d);
+      .tickValues(xVals)
+      .tickFormat(d => "1:" + d);
 
     let yRange = [0, this.yMax];
     this.y.domain(yRange)
@@ -101,24 +103,24 @@ export class LineTraceComponent implements OnInit {
 
     // polygon generator
     var area_init = d3.area()
-    .curve(d3.curveLinear)
-    .x(d => this.x(d.dilution_factor))
-    .y0(this.y(0))
-    .y1(d => this.y(0));
+      .curve(d3.curveLinear)
+      .x((d:any) => this.x(d.dilution_factor))
+      .y0(this.y(0))
+      .y1(d => this.y(0));
 
     var area = d3.area()
-    .curve(d3.curveLinear)
-    .x(d => this.x(d.dilution_factor))
-    .y0(this.y(0))
-    .y1(d => this.y(d.fluor_score));
+      .curve(d3.curveLinear)
+      .x((d:any) => this.x(d.dilution_factor))
+      .y0(this.y(0))
+      .y1((d:any) => this.y(d.fluor_score));
 
     var path_init = d3.line()
-    .x(d => this.x(d.dilution_factor))
-    .y(d => this.y(0));
+      .x((d:any) => this.x(d.dilution_factor))
+      .y(d => this.y(0));
 
     var path = d3.line()
-    .x(d => this.x(d.dilution_factor))
-    .y(d => this.y(d.fluor_score));
+      .x((d:any) => this.x(d.dilution_factor))
+      .y((d:any) => this.y(d.fluor_score));
 
     // AXIS
     this.plot.append("g")
@@ -132,7 +134,7 @@ export class LineTraceComponent implements OnInit {
       .call(this.yAxis);
 
     // Append filled polygon underneath
-     this.plot.append("path")
+    this.plot.append("path")
       .datum(this.df.values)
       .attr("class", "fluor-area")
       .attr("d", area_init)
@@ -141,13 +143,13 @@ export class LineTraceComponent implements OnInit {
       .duration(1000)
       .attr("d", area);
 
-      this.plot.append("path")
-       .datum(this.df.values)
-       .attr("class", "fluor-path")
-       .attr("d", path_init)
-       .transition('animate-initial')
-       .duration(1000)
-       .attr("d", path);
+    this.plot.append("path")
+      .datum(this.df.values)
+      .attr("class", "fluor-path")
+      .attr("d", path_init)
+      .transition('animate-initial')
+      .duration(1000)
+      .attr("d", path);
 
     // Append data measurements
     let dots = this.plot.append("g");
