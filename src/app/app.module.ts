@@ -30,6 +30,7 @@ import { DotplotKeyComponent } from './dotplot-key/dotplot-key.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { AnalyzeFilesComponent } from './analyze-files/analyze-files.component';
 import { UploadFilesComponent } from './analyze-files/upload-files/upload-files.component';
+import { LineTraceComponent } from './sorted-dotplot/line-trace/line-trace.component';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { UploadFilesComponent } from './analyze-files/upload-files/upload-files.
     DotplotKeyComponent,
     PageNotFoundComponent,
     AnalyzeFilesComponent,
-    UploadFilesComponent
+    UploadFilesComponent,
+    LineTraceComponent
   ],
   imports: [
     BrowserModule,

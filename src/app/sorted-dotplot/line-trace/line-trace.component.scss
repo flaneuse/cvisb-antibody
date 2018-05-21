@@ -1,0 +1,27 @@
+@import '~_custom_colors.scss';
+
+.dilution-plot {
+  width: 400px;
+  height: 400px;
+  // background-color: lighten(aliceblue, 1.4);
+}
+
+// --- dots ---
+.fluor-dots {
+  fill: $grey-200;
+  stroke: $grey-600;
+  // stroke-width: 3;
+  // stroke: white;
+}
+
+// --- filled area ---
+.fluor-area {
+  fill-opacity: 0.2;
+}
+
+.fluor-path {
+  stroke: $default-color;
+  fill: none;
+  stroke-width: 2;
+  stroke-dasharray: 4,4;
+}
