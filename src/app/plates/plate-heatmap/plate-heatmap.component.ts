@@ -127,7 +127,7 @@ export class PlateHeatmapComponent implements OnInit {
 
     this.x = d3.scaleBand()
       .range([0, this.width])
-      .domain(this.df.map(d => d.col));
+      .domain(this.df.map((d:any) => d.col));
 
     this.xAxis = d3.axisTop(this.x);
     // console.log(this.x.domain())
@@ -174,6 +174,7 @@ export class PlateHeatmapComponent implements OnInit {
 
     this.sel_avg.append('rect')
       .attr('class', 'avg-heatmap')
+      .attr('id', d => d.sample_id)
       .attr('x', (d, i) => this.x(d.col))
       .attr('width', this.x.bandwidth() * 3)
       .attr('y', d => this.y(d.row) + this.y.bandwidth() / 3)
@@ -223,7 +224,7 @@ export class PlateHeatmapComponent implements OnInit {
       .attr('height', this.y.bandwidth())
       .style('fill', d => this.colorScale(d.fluor_score));
 
-    // TODO: fix the periodicity so not hard coded.
+    // BUG: fix the periodicity so not hard coded.
     // border: avg
     this.heatmap.selectAll('.avg-border')
       .data(this.df.filter((d, i) => !(i % 3)))
