@@ -4,6 +4,8 @@ import { Subscription } from 'rxjs/';
 import * as d3 from 'd3';
 import * as d3Chromatic from 'd3-scale-chromatic';
 
+import { FluorData } from '../../_classes';
+
 @Component({
   selector: 'app-distrib-plot',
   templateUrl: './distrib-plot.component.html',
@@ -14,10 +16,10 @@ import * as d3Chromatic from 'd3-scale-chromatic';
 export class DistribPlotComponent implements OnInit {
   @ViewChild('chart') private chartContainer: ElementRef;
   @Input() private plate_num: number;
-  @Input() private df: Array<Object> = [];
+  @Input() private df: Array<FluorData> = [];
   @Input() private colorScale: any;
 
-  nested_df: Array<Object>;
+  nested_df: Array<any>;
 
 
   ref_lines: Array<Object> = [];
@@ -61,17 +63,17 @@ export class DistribPlotComponent implements OnInit {
 
     this.createChart();
     this.nested_df = d3.nest()
-      .key(d => d.sample_id)
-      .rollup(function(leaves: any) {
+      .key((d: any) => d.sample_id)
+      .rollup(function(leaves: any): any {
         return {
           'num_obs': leaves.length,
-          'sample_mean': d3.mean(leaves, d => d.fluor_score),
+          'sample_mean': d3.mean(leaves, (d:any) => d.fluor_score),
           'indivs': leaves.map(d => d.fluor_score),
           'not_control': leaves.map(d => d.sample_type).includes('experiment sample')
         }
       })
       .entries(this.df)
-      .sort((a, b) => a.value.sample_mean - b.value.sample_mean);
+      .sort((a: any, b: any) => a.value.sample_mean - b.value.sample_mean);
 
     this.populateChart();
     // }
@@ -126,6 +128,10 @@ export class DistribPlotComponent implements OnInit {
     let indiv_max = this.nested_df.map(d => d3.max(d.value.indivs));
     this.y.domain([.05, d3.max(indiv_max)]);
 
+    this.yAxis = d3.axisLeft(this.y)
+    .ticks(3)
+    .tickFormat(d3.format(".0f"));
+
     let refs = this.dotplot.selectAll('.ctrl-line')
       .data(this.ref_lines)
       .enter().append('g');
@@ -168,7 +174,7 @@ export class DistribPlotComponent implements OnInit {
     this.dotplot.append("g")
       .attr("class", "axis axis--y")
       .attr("transform", "translate(0," + 0 + ")")
-      .call(d3.axisLeft(this.y));
+      .call(this.yAxis);
 
 
 
