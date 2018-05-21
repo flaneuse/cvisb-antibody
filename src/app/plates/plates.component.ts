@@ -3,6 +3,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { GetDataService } from '../_services/get-data.service';
 import { Subscription } from 'rxjs';
 
+import { FluorData } from '../_classes/';
+
 @Component({
   selector: 'app-plates',
   templateUrl: './plates.component.html',
@@ -25,7 +27,7 @@ export class PlatesComponent implements OnInit {
   constructor(private dataSvc: GetDataService) {
 
     this.subscription = dataSvc.dataRetrived$.subscribe(
-      data => {
+      (data: any) => {
         console.log('subscribed within plates')
         console.log(data)
         this.DF = data.df;
@@ -33,7 +35,6 @@ export class PlatesComponent implements OnInit {
         this.plates = new Set(data.df.map(d => d.plate));
         this.expt_id = data.df[0].expt_id;
         this.expt_type = data.df[0].experiment;
-
       }
     )
 
@@ -59,6 +60,7 @@ export class PlatesComponent implements OnInit {
 
 
   ngOnInit() {
+    this.DF = this.dataSvc.getDB();
   }
 }
 
