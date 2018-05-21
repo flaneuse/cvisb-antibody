@@ -14,17 +14,17 @@ import { DilutionData } from '../../_classes/dilution-data';
 
 export class LineTraceComponent implements OnInit {
   @ViewChild('chart') private chartContainer: ElementRef;
-  @Input() private colorScale: any;
+  // @Input() private colorScale: any;
   private yMax: number = 152;
 
   private df: DilutionData = {
     'expt_id': 'BMGEXP573-ADCP',
     'sample_id': 'TUL 28',
+    'sample_mean': 312549,
     'values': [
       { 'dilution_factor': 150, 'fluor_score': 133.508235 },
       { 'dilution_factor': 750, 'fluor_score': 121.869465 },
-      { 'dilution_factor': 3750, 'fluor_score': 35.419185 }],
-    'sample_mean': 312549
+      { 'dilution_factor': 3750, 'fluor_score': 35.419185 }]
   };
 
   // -- Plot aes params --
@@ -45,16 +45,21 @@ export class LineTraceComponent implements OnInit {
   private y: any;
   private xAxis: any;
   private yAxis: any;
+  private colorScale: any;
+  private fillColor: any;
 
   constructor() { }
 
   ngOnInit() {
     // this.df.dilution = this.df.dilution_factor.map(d => 1 / d);
     console.log(this.df)
-
+    // TODO: replace with real function
+    this.colorScale = d3.scaleSequential(d3Chromatic.interpolateYlGn).domain([0, 500000]);
+    this.fillColor = this.colorScale(this.df.sample_mean);
 
     this.createChart();
     this.updateChart();
+
   }
 
   getSVGDims() {
@@ -91,7 +96,7 @@ export class LineTraceComponent implements OnInit {
     // Update the axis limits
     let xVals = (this.df.values.map(d => d.dilution_factor));
     let xSpan = d3.max(xVals) - d3.min(xVals);
-    let xRange = [d3.min(xVals) - xSpan/10, d3.max(xVals) + xSpan/10];
+    let xRange = [d3.min(xVals) - xSpan / 10, d3.max(xVals) + xSpan / 10];
     this.x.domain(xRange);
     this.xAxis = d3.axisBottom(this.x)
       .tickValues(xVals)
@@ -104,23 +109,23 @@ export class LineTraceComponent implements OnInit {
     // polygon generator
     var area_init = d3.area()
       .curve(d3.curveLinear)
-      .x((d:any) => this.x(d.dilution_factor))
+      .x((d: any) => this.x(d.dilution_factor))
       .y0(this.y(0))
       .y1(d => this.y(0));
 
     var area = d3.area()
       .curve(d3.curveLinear)
-      .x((d:any) => this.x(d.dilution_factor))
+      .x((d: any) => this.x(d.dilution_factor))
       .y0(this.y(0))
-      .y1((d:any) => this.y(d.fluor_score));
+      .y1((d: any) => this.y(d.fluor_score));
 
     var path_init = d3.line()
-      .x((d:any) => this.x(d.dilution_factor))
+      .x((d: any) => this.x(d.dilution_factor))
       .y(d => this.y(0));
 
     var path = d3.line()
-      .x((d:any) => this.x(d.dilution_factor))
-      .y((d:any) => this.y(d.fluor_score));
+      .x((d: any) => this.x(d.dilution_factor))
+      .y((d: any) => this.y(d.fluor_score));
 
     // AXIS
     this.plot.append("g")
@@ -138,7 +143,7 @@ export class LineTraceComponent implements OnInit {
       .datum(this.df.values)
       .attr("class", "fluor-area")
       .attr("d", area_init)
-      .attr("fill", 'green')
+      .attr("fill", this.fillColor)
       .transition('animate-initial')
       .duration(1000)
       .attr("d", area);
