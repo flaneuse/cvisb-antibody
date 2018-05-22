@@ -54,7 +54,7 @@ export class UploadFilesComponent implements OnInit {
       this.missing_files = false;
     } else {
       // switch off whether that particular file has been uploaded
-      this.trackUploads(item.file.name);
+      this.trackUploads();
     }
 
 
@@ -77,9 +77,7 @@ export class UploadFilesComponent implements OnInit {
     // this.checkMissing();
   }
 
-  updateFileType(new_filetype, item) {
-    console.log(item)
-    console.log(this.uploader.queue[0].formData.expt_id)
+  updateUploaded(new_filetype) {
     this.trackUploads();
   }
 
@@ -180,45 +178,29 @@ export class UploadFilesComponent implements OnInit {
   }
 
   trackUploads() {
-    // if (exptid === null) {
-    //   exptid = this.findExptID(filename);
-    // }
-    //
-    // if (filetype === null) {
-    //   filetype = this.findFileType(filename);
-    // }
-    // let idx = this.expt_ids.findIndex((d: any) => d.expt_id === exptid);
-
-    // if id doesn't exist in the data frame at all, create as a dictionary
-    // idx === -1 ? this.initializeUploaded(exptid, filetype) : this.changeUploaded(idx, filetype);
-
     // list of uploaded files
     let files = this.uploader.queue;
     // list of expt ids uploaded
     let expts = Array.from(new Set(files.map(d => d.formData.expt_id)).values());
 
+    this.expt_ids = [];
+
     // loop thru experiment ids to initiaze tracking variable
-    for(let i = 0; i < expts.length; i++) {
+    for (let i = 0; i < expts.length; i++) {
       let exptid = expts[i];
-      console.log(exptid)
 
       let idx = this.expt_ids.findIndex((d: any) => d.expt_id === exptid);
 
       // if id doesn't exist in the data frame at all, create as a dictionary
       // If it does exist, reset its values to false.
-      idx === -1 ? this.initializeUploaded(exptid) : this.resetUploaded();
+      // idx === -1 ? this.initializeUploaded(exptid) : this.resetUploaded();
+      this.initializeUploaded(exptid)
     }
 
-
     // loop thru uploaded files to turn them on
-    for(let j = 0; j < files.length; j++) {
-    console.log(files[j].formData);
-    this.changeUploaded(files[j].formData);
-  }
-
-    // let idx = this.expt_ids.findIndex((d: any) => d.expt_id === exptid);
-    //
-    // this.changeUploaded(idx, filetype);
+    for (let j = 0; j < files.length; j++) {
+      this.changeUploaded(files[j].formData);
+    }
 
   }
 
@@ -247,7 +229,6 @@ export class UploadFilesComponent implements OnInit {
       this.expt_ids[idx]['filetype'][idx_upload]['uploaded'] = true;
     }
   }
-
 
   resetUploaded() {
     for (let i = 0; i < this.expt_ids.length; i++) {
@@ -278,7 +259,7 @@ export class UploadFilesComponent implements OnInit {
     }
   }
 
-// Scans filename for the experiment ID, based on this.exptid_pattern
+  // Scans filename for the experiment ID, based on this.exptid_pattern
   findExptID(filename) {
     let id = filename.match(this.exptid_pattern);
 

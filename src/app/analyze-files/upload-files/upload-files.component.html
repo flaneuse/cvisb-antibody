@@ -54,13 +54,13 @@
         <tr *ngFor="let item of uploader.queue">
           <td><strong>{{ item?.file?.name }}</strong></td>
 
-          <!-- <td>
-            {{item.formData['expt_id']}}
+          <td>
+            <!-- {{item.formData['expt_id']}} -->
 
 
             <mat-form-field class="example-full-width">
-              <input matInput placeholder="State" aria-label="State" [(value)]="item.formData['expt_id']"
-              [matAutocomplete]="auto" [formControl]="stateCtrl">
+              <input matInput aria-label="Experiment ID" [(ngModel)]="item.formData['expt_id']" (ngModelChange) ="updateUploaded($event)"
+              [matAutocomplete]="auto" >
               <mat-autocomplete #auto="matAutocomplete">
                 <mat-option *ngFor="let opt of expt_ids" [value]="opt.expt_id">
                   {{opt.expt_id}}
@@ -68,13 +68,13 @@
               </mat-autocomplete>
             </mat-form-field>
 
-          </td> -->
+          </td>
 
-          <td>
-          <mat-select [(value)]="item.formData['expt_id']">
+          <!-- <td>
+          <mat-select [(ngModel)]="item.formData['expt_id']" (ngModelChange) ="updateUploaded($event)">
             <mat-option *ngFor="let opt of expt_ids" [value]="opt.expt_id">{{opt.expt_id}}</mat-option>
           </mat-select>
-        </td>
+        </td> -->
 
           <td>
             <mat-select [(value)]="item.formData['expt']">
@@ -84,14 +84,13 @@
 
           <td>
             <mat-form-field>
-            <mat-select [(ngModel)]="item.formData['file']" (ngModelChange) ="updateFileType($event, item)">
+            <mat-select [(ngModel)]="item.formData['file']" (ngModelChange) ="updateUploaded($event)">
               <mat-option *ngFor="let opt of file_types" [value]="opt.id">{{opt.label}}</mat-option>
             </mat-select>
           </mat-form-field>
 
           </td>
 
-          <!-- <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td> -->
 
           <td>
             <div class="progress" style="margin-bottom: 0;">
