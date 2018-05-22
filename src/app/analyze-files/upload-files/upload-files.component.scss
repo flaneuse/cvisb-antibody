@@ -9,6 +9,10 @@
   z-index: 10;
 }
 
+.upload-btn {
+  margin-top: 10px;
+}
+
 // File drop area
 .my-drop-zone {
   border: dotted 3px lightgray;
@@ -38,6 +42,9 @@
   content: "Upload files";
 }
 
+.queue {
+  margin-top: 25px;
+}
 
 // body,
 // html {

@@ -80,7 +80,7 @@ export class UploadFilesComponent implements OnInit {
   updateFileType(new_filetype, item) {
     console.log(item)
     console.log(this.uploader.queue[0].formData.expt_id)
-    this.trackUploads(null, item.formData['expt_id'], item.formData['file'])
+    this.trackUploads();
   }
 
   ngOnChanges() {
@@ -109,6 +109,17 @@ export class UploadFilesComponent implements OnInit {
     //   item.formData = [{ firstParam: 'Value', secondParam: 'value' }];
     // };
     //
+
+
+    // After file is uploaded to the queue-- and before the file is passed to Python -- parameters are attached to the formData field.
+    // Params passing to Flask solved via https://stackoverflow.com/questions/38502687/how-to-submit-post-data-with-ng2-file-upload-in-angular-2
+    this.uploader.onBuildItemForm = (fileItem: any, form: any) => {
+      // Convert Object containing the file/experiment params set by the user to pass to Python backend
+      for (let key of Object.keys(fileItem.formData)) {
+        form.append(key, fileItem.formData[key])
+      }
+    };
+
     this.uploader.onAfterAddingFile = (fileItem: any) => {
       // Pull out the filename uploaded
       let filename = fileItem.file.name;
@@ -121,36 +132,28 @@ export class UploadFilesComponent implements OnInit {
       // id != null && this.expt_ids.indexOf(id) === -1 && this.expt_ids.push(id); // add to the list of expts if not already in the list
       fileItem.formData['expt'] = this.findExptType(filename);
       fileItem.formData['file'] = filetype;
+    }
 
+    this.uploader.onAfterAddingAll = (addedItems: any) => {
       // Keep track of if the right files have been Uploaded
       // // add to the list of expts if not already in the list
       // if ID exists, update the upload status of the files
-      this.trackUploads(filename)
-
-
+      this.trackUploads();
 
       // Update the count of missing files.
       this.checkMissing();
       console.log(this.expt_ids)
+      console.log(this.uploader.queue)
     }
 
-
-    // Params passing to Flask solved via https://stackoverflow.com/questions/38502687/how-to-submit-post-data-with-ng2-file-upload-in-angular-2
-    this.uploader.onBuildItemForm = (fileItem: any, form: any) => {
-      // Convert Object containing the file/experiment params set by the user to pass to Python backend
-      for (let key of Object.keys(fileItem.formData)) {
-        form.append(key, fileItem.formData[key])
-      }
-    };
-
-    this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-      console.log('file completed uploading')
-      // this.fileurl = response
-      // console.log(item)
-      // console.log(status)
-      // console.log(headers)
-      console.log(response)
-    };
+    // this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
+    //   console.log('file completed uploading')
+    //   // this.fileurl = response
+    //   // console.log(item)
+    //   // console.log(status)
+    //   // console.log(headers)
+    //   console.log(response)
+    // };
 
     // TODO: build in checks if missing files.
     this.uploader.onCompleteAll = () => {
@@ -161,8 +164,10 @@ export class UploadFilesComponent implements OnInit {
   }
 
   checkMissing() {
+    // grab uploaded status
     let uploads = this.expt_ids.map((d: any) => d.filetype.map(g => g.uploaded))
 
+    // helper function to see whether any uploaded status == false
     let isMissing = function(val) {
       return !val;
     }
@@ -170,49 +175,79 @@ export class UploadFilesComponent implements OnInit {
     // flatten array
     uploads = [].concat.apply([], uploads)
 
+    // check if any are missing
     this.missing_files = uploads.some(isMissing);
   }
 
-  trackUploads(filename, exptid = null, filetype = null) {
-    if (exptid === null) {
-      exptid = this.findExptID(filename);
-    }
-
-    if (filetype === null) {
-      filetype = this.findFileType(filename);
-    }
-    let idx = this.expt_ids.findIndex((d: any) => d.expt_id === exptid);
+  trackUploads() {
+    // if (exptid === null) {
+    //   exptid = this.findExptID(filename);
+    // }
+    //
+    // if (filetype === null) {
+    //   filetype = this.findFileType(filename);
+    // }
+    // let idx = this.expt_ids.findIndex((d: any) => d.expt_id === exptid);
 
     // if id doesn't exist in the data frame at all, create as a dictionary
-    idx === -1 ? this.initializeUploaded(exptid, filetype) : this.changeUploaded(idx, filetype);
+    // idx === -1 ? this.initializeUploaded(exptid, filetype) : this.changeUploaded(idx, filetype);
+
+    // list of uploaded files
+    let files = this.uploader.queue;
+    // list of expt ids uploaded
+    let expts = Array.from(new Set(files.map(d => d.formData.expt_id)).values());
+
+    // loop thru experiment ids to initiaze tracking variable
+    for(let i = 0; i < expts.length; i++) {
+      let exptid = expts[i];
+      console.log(exptid)
+
+      let idx = this.expt_ids.findIndex((d: any) => d.expt_id === exptid);
+
+      // if id doesn't exist in the data frame at all, create as a dictionary
+      // If it does exist, reset its values to false.
+      idx === -1 ? this.initializeUploaded(exptid) : this.resetUploaded();
+    }
+
+
+    // loop thru uploaded files to turn them on
+    for(let j = 0; j < files.length; j++) {
+    console.log(files[j].formData);
+    this.changeUploaded(files[j].formData);
   }
 
-  initializeUploaded(exptid, filetype) {
+    // let idx = this.expt_ids.findIndex((d: any) => d.expt_id === exptid);
+    //
+    // this.changeUploaded(idx, filetype);
 
+  }
+
+  initializeUploaded(exptid: string) {
     // NOTE: must use deep copying to create a *copy* not pointer to this.file_types
-
-    let arr = JSON.parse(JSON.stringify(this.file_types));
+    let arr = JSON.parse(JSON.stringify(this.file_types)); // creates deep copy of the
     // these copy just the array, but also need to copy the objects WITHIN the array. These methods just provide pointers to the process.
     // let arr = this.file_types.concat(); // doesn't work
     // let arr = this.file_types.slice(); // doesn't work
     // let arr = this.file_types.splice(0); // doesn't work -- removes obj from this.file_types
     // let arr = [...this.file_types]; // doesn't work.
     this.expt_ids.push({ 'expt_id': exptid, 'filetype': arr })
-
-    let idx = this.expt_ids.findIndex((d: any) => d.expt_id === exptid);
-
-    this.changeUploaded(idx, filetype);
-
   }
 
-  changeUploaded(idx, filetype) {
+  changeUploaded(formData: any) {
+    let filetype = formData.file;
+
     if (filetype) {
-      // Changes the master lookup table to toggle its presence from 'off' to 'on'
+      // find which experiment where it occurs
+      let idx = this.expt_ids.findIndex((d: any) => d.expt_id === formData.expt_id);
+
+
       let idx_upload = this.expt_ids[idx]['filetype'].findIndex(d => d.id == filetype);
 
-      this.expt_ids[idx]['filetype'][idx_upload]['uploaded'] = !this.expt_ids[idx]['filetype'][idx_upload]['uploaded'];
+      // Changes the master lookup table to toggle its presence from 'off' to 'on'
+      this.expt_ids[idx]['filetype'][idx_upload]['uploaded'] = true;
     }
   }
+
 
   resetUploaded() {
     for (let i = 0; i < this.expt_ids.length; i++) {
@@ -243,6 +278,7 @@ export class UploadFilesComponent implements OnInit {
     }
   }
 
+// Scans filename for the experiment ID, based on this.exptid_pattern
   findExptID(filename) {
     let id = filename.match(this.exptid_pattern);
 
