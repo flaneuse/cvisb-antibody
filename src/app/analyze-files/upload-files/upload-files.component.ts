@@ -140,8 +140,8 @@ export class UploadFilesComponent implements OnInit {
 
       // Update the count of missing files.
       this.checkMissing();
-      console.log(this.expt_ids)
-      console.log(this.uploader.queue)
+      // console.log(this.expt_ids)
+      // console.log(this.uploader.queue)
     }
 
     // this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
@@ -183,6 +183,7 @@ export class UploadFilesComponent implements OnInit {
     // list of expt ids uploaded
     let expts = Array.from(new Set(files.map(d => d.formData.expt_id)).values());
 
+    // Reset expt tracking list.
     this.expt_ids = [];
 
     // loop thru experiment ids to initiaze tracking variable
@@ -191,9 +192,6 @@ export class UploadFilesComponent implements OnInit {
 
       let idx = this.expt_ids.findIndex((d: any) => d.expt_id === exptid);
 
-      // if id doesn't exist in the data frame at all, create as a dictionary
-      // If it does exist, reset its values to false.
-      // idx === -1 ? this.initializeUploaded(exptid) : this.resetUploaded();
       this.initializeUploaded(exptid)
     }
 
