@@ -67,12 +67,13 @@ export class DotplotKeyComponent implements OnInit {
     this.x = d3.scaleBand()
       .range([0, this.width])
       .domain(this.nested_df
-      .map(d => d.key));
+      .map((d: any) => d.key));
 
-    let indiv_min = this.nested_df.map(d => d3.min(d.value.indivs))
-    let indiv_max = this.nested_df.map(d => d3.max(d.value.indivs))
+    let indiv_min = this.nested_df.map((d: any) => d3.min(d.value.indivs))
+    let indiv_max = this.nested_df.map((d: any) => d3.max(d.value.indivs))
+    let y_range = [parseFloat(d3.min(indiv_min)), parseFloat(d3.max(indiv_max))]; // parseFloat required so ts doesn't freak out
     // this.y = d3.scaleLinear().range([this.height, 0]).domain([0, d3.max(indiv_max)])
-    this.y = d3.scaleLog().range([this.height, 0]).domain([d3.min(indiv_min), d3.max(indiv_max)])
+    this.y = d3.scaleLog().range([this.height, 0]).domain(y_range)
 
 
     // this.y = d3.scaleLinear().range([this.height, 0]).domain([0, d3.max(this.df.map(d => d.value.indivs.map(g => g)))]);

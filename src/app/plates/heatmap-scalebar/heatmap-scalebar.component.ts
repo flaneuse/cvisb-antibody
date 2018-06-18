@@ -47,21 +47,21 @@ export class HeatmapScalebarComponent implements OnInit {
   ngOnInit() {
     // console.log(this.nested_df)
 
-    this.df = this.df.filter(d => d.plate == this.plate_num);
+    this.df = this.df.filter((d: any) => d.plate == this.plate_num);
 
 
     this.nested_df = d3.nest()
-      .key(d => d.sample_id)
-      .rollup(function(leaves: any) {
+      .key((d: any) => d.sample_id)
+      .rollup(function (leaves: any): any {
         return {
           'num_obs': leaves.length,
-          'sample_mean': d3.mean(leaves, d => d.fluor_score),
+          'sample_mean': d3.mean(leaves, (d: any) => d.fluor_score),
           'indivs': leaves.map(d => d.fluor_score),
           'not_control': leaves.map(d => d.sample_type).includes('experiment sample')
         }
       })
       .entries(this.df)
-      .sort((a, b) => a.value.sample_mean - b.value.sample_mean);
+      .sort((a: any, b: any) => a.value.sample_mean - b.value.sample_mean);
     // console.log(this.nested_df)
     this.createChart();
 
@@ -103,9 +103,9 @@ export class HeatmapScalebarComponent implements OnInit {
 
 
     // update domains of scales
-    this.x.domain(this.nested_df.map(d => d.key));
+    this.x.domain(this.nested_df.map((d: any) => d.key));
 
-    let indiv_max = this.nested_df.map(d => d3.max(d.value.indivs));
+    let indiv_max = this.nested_df.map((d: any) => d3.max(d.value.indivs));
     this.y.domain([.05, d3.max(indiv_max)]);
 
     //Append a defs (for definition) element to your SVG
@@ -118,8 +118,8 @@ export class HeatmapScalebarComponent implements OnInit {
     linearGradient.selectAll('stop')
       .data(this.nested_df)
       .enter().append('stop')
-      .attr('offset', (d, i) => i / (this.nested_df.length - 1))
-      .attr('stop-color', (d, i) => this.colorScale(d.value.sample_mean));
+      .attr('offset', (d: any, i) => i / (this.nested_df.length - 1))
+      .attr('stop-color', (d: any, i) => this.colorScale(d.value.sample_mean));
 
 
 

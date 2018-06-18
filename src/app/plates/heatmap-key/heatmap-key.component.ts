@@ -81,13 +81,13 @@ export class HeatmapKeyComponent implements OnInit {
 
     this.rect_width = this.width;
 
-    this.x = d3.scaleBand().range([0, this.width]).domain(this.df.map(d => d.col));
+    this.x = d3.scaleBand().range([0, this.width]).domain(this.df.map((d: any) => d.col));
     this.xAxis = d3.axisTop(this.x);
 
     this.y = d3.scaleBand()
       // .padding(0.55)
       .range([0, this.height])
-      .domain(this.df.map(d => d.row));
+      .domain(this.df.map((d: any) => d.row));
     this.yAxis = d3.axisLeft(this.y);
 
     // Append SVG
