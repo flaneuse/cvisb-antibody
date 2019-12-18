@@ -16,26 +16,26 @@ export class AnalyzeFilesComponent implements OnInit {
 
 
 
-    public uploader: FileUploader;
-    // private progress: number = 0;
-    private expt_types = ['ADCD', 'ADCP', 'ADNP', 'NKD'];
-    private file_types = [
-      { id: 'plates', label: 'plate/sample layout', search_string: 'layout' },
-      { id: 'data', label: 'fluorescence data', search_string: 'flowjo' },
-      { id: 'raw', label: '.acs file', search_string: '\.acs' },
-    ];
+  public uploader: FileUploader;
+  // private progress: number = 0;
+  private expt_types = ['ADCD', 'ADCP', 'ADNP', 'NKD'];
+  private file_types = [
+    { id: 'plates', label: 'plate/sample layout', search_string: 'layout' },
+    { id: 'data', label: 'fluorescence data', search_string: 'flowjo' },
+    { id: 'raw', label: '.acs file', search_string: '\.acs' },
+  ];
 
-    // = new FileUploader({ url: 'http://127.0.0.1:5000/upload' });
-    URL: string = 'http://127.0.0.1:5000/upload';
-    public hasBaseDropZoneOver: boolean = false;
-    public hasAnotherDropZoneOver: boolean = false;
+  // = new FileUploader({ url: 'http://127.0.0.1:5000/upload' });
+  URL: string = 'http://127.0.0.1:5000/upload';
+  public hasBaseDropZoneOver: boolean = false;
+  public hasAnotherDropZoneOver: boolean = false;
 
-    private isUploaded = false;
+  private isUploaded = false;
 
-    public fileOverBase(e: any): void {
-      console.log(e)
-      this.hasBaseDropZoneOver = e;
-    }
+  public fileOverBase(e: any): void {
+    console.log(e)
+    this.hasBaseDropZoneOver = e;
+  }
 
   constructor(private _formBuilder: FormBuilder) { }
 
@@ -69,8 +69,8 @@ export class AnalyzeFilesComponent implements OnInit {
     // };
     //
     this.uploader.onAfterAddingFile = (fileItem: any) => {
-    this.isUploaded = true;
-    
+      this.isUploaded = true;
+
       let filename = fileItem.file.name;
       // Update the
       fileItem.formData['expt'] = this.findExptType(filename);

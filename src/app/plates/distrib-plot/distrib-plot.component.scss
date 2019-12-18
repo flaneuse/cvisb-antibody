@@ -34,7 +34,7 @@
   opacity: 0.5;
 }
 
-.axis--x line, .axis--x path, .axis--y path {
+.axis--x line, .axis--x path {
   display: none;
 }
 
@@ -48,7 +48,17 @@
   }
 
 .axis--y line {
+  shape-rendering: crispEdges;
   stroke: $grey-400;
+  stroke-width: 3px;
+}
+
+
+/* Below, we set the tick length to 10px. The stroke-dasharray only displays 6px to create a minor tick effect. */
+.axis .minor line {
+  stroke: #777;
+  stroke-width: 1px;
+  stroke-dasharray: 6,4;
 }
 
 .divider {

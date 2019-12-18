@@ -80,6 +80,28 @@ export class PlateHeatmapComponent implements OnInit {
 
   }
 
+  switchLog() {
+    console.log('changing isLinear')
+    this.isLinear = !this.isLinear;
+    console.log(this.df)
+
+    let convertFluor = function(df, isLinear) {
+      for (let i = 0; i < df.length; i++) {
+        if (isLinear === true) {
+          df[i].fluor_score = 10 ^ df[i].fluor_score;
+          df[i].sample_mean = 10 ^ df[i].smaple_mean;
+        } else {
+          df[i].fluor_score = Math.log(df[i].fluor_score);
+          df[i].sample_mean = Math.log(df[i].smaple_mean);
+        }
+      }
+      return df;
+    }
+    this.df = convertFluor(this.df, this.isLinear);
+    console.log(this.df)
+    // this.createChart();
+  }
+
 
   getSVGDims() {
     // Find container; define width/height of svg obj.
@@ -127,7 +149,7 @@ export class PlateHeatmapComponent implements OnInit {
 
     this.x = d3.scaleBand()
       .range([0, this.width])
-      .domain(this.df.map((d:any) => d.col));
+      .domain(this.df.map((d: any) => d.col));
 
     this.xAxis = d3.axisTop(this.x);
     // console.log(this.x.domain())

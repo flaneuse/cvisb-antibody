@@ -11,7 +11,7 @@
 </div> -->
 
 <button mat-button color="warn" (click) = "showAvg($event)">Show average</button>
-<!-- <button (click) = "showAvg($event)">Change to linear scale</button> -->
+<button mat-button color="warn" (click) = "switchLog()">{{!isLinear ? 'Change to linear scale' : 'Change to log scale'}}</button>
 
 <div class="heatmap" id="heatmap{{plate}}" #chart>
 </div>

@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs/';
 
-import { HttpClient } from '@angular/common/http';
+import { HttpErrorResponse, HttpHeaders, HttpClient } from "@angular/common/http";
 import { FileUploader } from 'ng2-file-upload';
+
+// classes
+import { FluorData } from '../_classes';
 
 import * as d3 from 'd3';
 import * as d3Chromatic from 'd3-scale-chromatic';
@@ -21,11 +24,13 @@ export class GetDataService {
 
   serverData: JSON;
   employeeData: JSON;
+  fluorData: string;
+  testData: any;
 
   private subject = new Subject<any>();
 
 
-  private data: Array<Object>; // main holder for the data
+  private data: Array<FluorData>; // main holder for the data
   private colorScale: any; // D3 color function
 
   private dataSource = new Subject<Object>();
@@ -39,19 +44,69 @@ export class GetDataService {
   constructor(private httpClient: HttpClient) {
   }
 
-  sayHi() {
-    // this.httpClient.get('http://127.0.0.1:5000/').subscribe(data => {
-      this.httpClient.get(environment.host_url).subscribe(data => {
-      this.serverData = data as JSON;
-      console.log(this.serverData);
+  // test functions
+  // sayHi() {
+  //   // this.httpClient.get('http://127.0.0.1:5000/').subscribe(data => {
+  //   this.httpClient.get(environment.host_url).subscribe(data => {
+  //     this.serverData = data as JSON;
+  //     console.log(this.serverData);
+  //   })
+  // }
+  //
+  // getAllEmployees() {
+  //   this.httpClient.get(environment.host_url + 'employees').subscribe(data => {
+  //     this.employeeData = data as JSON;
+  //     console.log(this.employeeData);
+  //   })
+  // }
+
+
+
+  getDB() {
+    console.log('CHECK RESULTS!')
+    this.httpClient.get(environment.host_url + 'fluordata').subscribe((data: string) => {
+      this.fluorData = data;
+      // this.fluorData = data as JSON;
+      this.data = this.parse_json(this.fluorData);
+      this.setColorScale();
+
+      console.log(this.data)
+
+      this.dataSource.next({ 'df': this.data, 'colors': this.colorScale });
     })
   }
 
-  getAllEmployees() {
-    this.httpClient.get(environment.host_url + 'employees').subscribe(data => {
-      this.employeeData = data as JSON;
-      console.log(this.employeeData);
+  getRaw() {
+    this.httpClient.get(environment.host_url + 'merge').subscribe((data: string) => {
+      this.fluorData = data;
+      // this.fluorData = data as JSON;
+      this.data = this.parse_json(this.fluorData);
+      // this.setColorScale();
+
+      console.log(this.data)
+
+      this.dataSource.next({ 'df': this.data });
     })
+  }
+
+  uploadData() {
+    console.log('calling uploadData')
+    this.httpClient.post(environment.host_url + 'upload', this
+      , {
+        observe: 'response',
+        // withCredentials: true,
+        headers: new HttpHeaders()
+        .set('content-type', 'application/json')
+      }
+
+    ).subscribe(data => {
+      console.log('response object?')
+      console.log(this)
+      console.log(data)
+      // HTTP response object
+      this.testData = data;
+      console.log(this.testData);
+    }, err => console.log(err))
   }
 
 
@@ -68,7 +123,7 @@ export class GetDataService {
   //   this.colorSource.next(this.colorScale);
   // }
 
-  setColorScale(colorInterpolator: any = d3Chromatic.interpolateYlGn, log = true, logbase = 10) {
+  setColorScale(colorInterpolator: any = d3Chromatic.interpolateYlGn, isLinear = false, logbase = 10) {
     // Set up main color scale.
     let scale = d3.scaleSequential(colorInterpolator);
 
@@ -78,21 +133,22 @@ export class GetDataService {
 
       let fluor_scores = this.data.map(d => d.fluor_score);
 
-      let fluor_range = [d3.min(fluor_scores), d3.max(fluor_scores)];
+      let fluor_range: number[] = [d3.min(fluor_scores), d3.max(fluor_scores)];
 
       // log-scale the colors, if specified.
-      if (log) {
+      if (!isLinear) {
         console.log(fluor_range)
         fluor_range = fluor_range.map(d => Math.log(d) / Math.log(logbase))
         console.log(fluor_range)
       }
 
       // Set the domain of the colors
-      scale.domain(fluor_range);
+      // force typescript number array to be happy
+      scale.domain(fluor_range as [number | { valueOf(): number; }, number | { valueOf(): number; }]);
 
       let colorFunc = function(value) {
         // if log-transformed, transform the values before feeding into the color function
-        if (log) {
+        if (!isLinear) {
           return scale(Math.log(value) / Math.log(logbase))
         }
         return scale(value)
@@ -105,10 +161,11 @@ export class GetDataService {
 
 
   // Modified from https://stackoverflow.com/questions/45441962/how-to-upload-a-csv-file-and-read-them-using-angular2
-  read_json(event: any) {
-  console.log('reading')
-    this.sayHi();
-    this.getAllEmployees();
+  read_json(event: any, isLinear) {
+    console.log('reading')
+    // this.sayHi();
+    // this.getAllEmployees();
+    this.uploadData();
 
     let files: FileList = event.target.files;
 
@@ -176,7 +233,7 @@ export class GetDataService {
   // Convert json to an array with an Object for each row.
   // Assumes parsed object becomes an object of objects
   // TODO: convert to pipe, write csv parser.
-  parse_json(json_string: string) {
+  parse_json(json_string: string): FluorData[] {
     let parsed: Object = JSON.parse(json_string);
 
     let cols = Object.keys(parsed);
@@ -184,7 +241,7 @@ export class GetDataService {
     // Possible BUG: assuming each column has the same number of rows
     let num_rows = Object.keys(parsed[cols[0]]).length;
 
-    let arr: Array<Object> = [];
+    let arr: Array<any> = [];
 
     for (let i = 0; i < num_rows; i++) {
       let tmp = {};

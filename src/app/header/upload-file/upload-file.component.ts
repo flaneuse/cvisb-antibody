@@ -13,6 +13,8 @@ export class UploadFileComponent implements OnInit {
   data: any;
   plates: Array<number> = [];
 
+  private isLinear: boolean = false;
+
   // constructor() { }
   constructor(private dataSvc: GetDataService
 ) { }
@@ -27,7 +29,7 @@ export class UploadFileComponent implements OnInit {
     console.log('uploaded');
 
     // console.log(event);
-    this.dataSvc.read_json(event);
+    this.dataSvc.read_json(event, this.isLinear);
   //   .subscribe(data => {
   //   console.log('subscribing')
   //   console.log(data)
